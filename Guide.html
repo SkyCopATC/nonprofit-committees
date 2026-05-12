@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nonprofit Standing Committees — User Guide</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#1B3A5C;--teal:#2A7B6F;--gold:#D4A017;--bg:#f0f4f8;--white:#fff;--border:#e2e8f0;--text:#1a1a2e;--muted:#64748b;--light:#f8fafc;--red:#c0392b;--green:#2d7a4f}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);font-size:15px;line-height:1.6}
+a{color:var(--teal);text-decoration:none}
+a:hover{text-decoration:underline}
+.topbar{background:var(--navy);color:#fff;padding:14px 24px;display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:20;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.topbar .mark{width:34px;height:34px;background:var(--teal);border-radius:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px}
+.topbar .title{font-size:15px;font-weight:700;flex:1}
+.topbar .title span{font-size:11px;font-weight:400;color:rgba(255,255,255,.6);display:block;line-height:1.2}
+.topbar a{color:#fff;font-size:13px;padding:8px 14px;border:1px solid rgba(255,255,255,.25);border-radius:8px;font-weight:600;background:rgba(255,255,255,.06)}
+.topbar a:hover{background:rgba(255,255,255,.12);text-decoration:none}
+.layout{display:grid;grid-template-columns:240px 1fr;max-width:1200px;margin:0 auto;gap:28px;padding:28px 24px 60px}
+.toc{position:sticky;top:78px;align-self:start;background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;max-height:calc(100vh - 100px);overflow-y:auto}
+.toc-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px}
+.toc a{display:block;padding:6px 10px;font-size:13px;color:var(--text);border-radius:6px;font-weight:500;margin-bottom:2px}
+.toc a:hover{background:var(--light);color:var(--navy);text-decoration:none}
+.toc a.active{background:rgba(42,123,111,.1);color:var(--teal);font-weight:600}
+.main{background:#fff;border:1px solid var(--border);border-radius:14px;padding:40px}
+.hero{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;padding:32px;border-radius:14px;margin-bottom:28px}
+.hero h1{font-size:30px;font-weight:700;margin-bottom:8px}
+.hero p{font-size:15px;opacity:.92}
+h2{font-size:24px;color:var(--navy);margin:36px 0 12px;font-weight:700;scroll-margin-top:80px}
+h2:first-of-type{margin-top:0}
+h3{font-size:17px;color:var(--navy);margin:22px 0 8px;font-weight:700}
+p{margin-bottom:12px}
+ul,ol{margin:0 0 14px 22px}
+li{margin-bottom:6px}
+.callout{background:var(--light);border-left:4px solid var(--teal);padding:14px 18px;border-radius:8px;margin:14px 0;font-size:14px}
+.callout.warn{background:#fff7d6;border-color:var(--gold);color:#5c4400}
+.callout.tip{background:#e6f4f1;border-color:var(--teal)}
+code{background:var(--light);padding:1px 6px;border-radius:4px;font-family:'Courier New',monospace;font-size:13px;color:var(--navy);border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:14px}
+th,td{text-align:left;padding:10px 12px;border-bottom:1px solid var(--border)}
+th{background:var(--light);color:var(--navy);font-weight:700}
+.role-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em;display:inline-block;margin-left:6px}
+.pill-leader{background:#dbeafe;color:var(--navy)}
+.pill-member{background:#eef2f7;color:var(--muted)}
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr;gap:14px;padding:18px 14px 40px}
+  .toc{position:static;max-height:none;order:2}
+  .main{padding:22px;order:1}
+  .hero{padding:22px}
+  .hero h1{font-size:22px}
+}
+</style></head>
+<body>
+<div class="topbar">
+  <div class="mark">B</div>
+  <div class="title">Build Your Club Academy<span>Standing Committees — User Guide</span></div>
+  <a href="/">← Back to App</a>
+</div>
+
+<div class="layout">
+  <aside class="toc">
+    <div class="toc-title">In This Guide</div>
+    <a href="#what">What is this tool?</a>
+    <a href="#start">Getting started</a>
+    <a href="#sizing">Org size & recommendations</a>
+    <a href="#standing">Standing committees</a>
+    <a href="#mycommittees">My Committees</a>
+    <a href="#library">Committee Library</a>
+    <a href="#adhoc">Ad hoc committees</a>
+    <a href="#transitions">Onboarding & offboarding</a>
+    <a href="#templates">Templates Directory</a>
+    <a href="#xref">Cross-Reference Matrix</a>
+    <a href="#build">Build Handbook</a>
+    <a href="#team">Team collaboration</a>
+    <a href="#pro">Pro vs Free</a>
+    <a href="#disclaimer">Disclaimer</a>
+  </aside>
+
+  <article class="main">
+    <div class="hero">
+      <h1>Nonprofit Standing Committees</h1>
+      <p>Set up, manage, and document your nonprofit's committee structure. Browse 10 standing committee charters, charter ad hoc working groups, run onboarding and offboarding checklists, and generate a polished committee handbook section.</p>
+    </div>
+
+    <h2 id="what">What is this tool?</h2>
+    <p>This tool helps you decide which committees your nonprofit should have, formally adopt them, track who serves on them, and document the structure for board members and funders. It also includes:</p>
+    <ul>
+      <li>A library of all 10 standard standing committees with full charter language</li>
+      <li>A directory of 126 governance templates organized by committee</li>
+      <li>Four detailed onboarding/offboarding checklists for board and committee transitions</li>
+      <li>A cross-reference matrix showing which templates are shared across committees</li>
+      <li>A workflow for chartering and dissolving ad hoc committees</li>
+      <li>A handbook generator that assembles your active committees into a print-ready document</li>
+    </ul>
+
+    <h2 id="start">Getting started</h2>
+    <ol>
+      <li>Sign up or sign in. The demo account is <code>demo@example.org</code> / <code>demo</code>.</li>
+      <li>During onboarding, enter your organization's legal name and pick the size tier that matches you (Small / Medium / Large).</li>
+      <li>Land on the Dashboard. Recommended committees for your size will be highlighted.</li>
+    </ol>
+
+    <h2 id="sizing">Org size & recommendations</h2>
+    <p>Different-sized nonprofits should have different committee structures. The tool recommends committees based on which size tier you picked:</p>
+    <table>
+      <tr><th>Size</th><th>Staff & Budget</th><th>Recommended Committees</th></tr>
+      <tr><td><b>Small</b></td><td>0–5 staff, under $50K</td><td>Executive, Finance & Audit, Development & Fundraising</td></tr>
+      <tr><td><b>Medium</b></td><td>6–20 staff, $50K–$250K</td><td>Above plus Strategic Planning, Membership & Outreach, Education & Research, Events & Meetings, Technology</td></tr>
+      <tr><td><b>Large</b></td><td>21–100 staff, over $250K</td><td>All 10, including Publications & Communications and Exhibitions & Awards</td></tr>
+    </table>
+    <p>You can change your org size in Settings at any time. The recommendation is guidance, not a rule — add or remove committees to fit your actual situation.</p>
+
+    <h2 id="standing">Standing committees vs. ad hoc</h2>
+    <p>This is the fundamental distinction:</p>
+    <ul>
+      <li><b>Standing committees</b> are <i>permanent</i> committees written into the bylaws. They exist year over year, regardless of who's on the board. Examples: Executive, Finance & Audit, Development.</li>
+      <li><b>Ad hoc committees</b> are <i>time-limited</i> committees created by Board resolution for a specific purpose. They dissolve when their work is done. Examples: Search committee for hiring an ED, Bylaws Revision Task Force, Capital Campaign Steering Committee.</li>
+    </ul>
+
+    <h2 id="mycommittees">My Committees</h2>
+    <p>The list of standing committees your organization has actually established. Each entry tracks:</p>
+    <ul>
+      <li><b>Chair</b> — the person leading the committee</li>
+      <li><b>Members</b> — full roster (one per line)</li>
+      <li><b>Meeting cadence</b> — Monthly / Quarterly / etc.</li>
+      <li><b>Next meeting date</b></li>
+      <li><b>Adoption status</b> — has the Board formally adopted the charter? When?</li>
+      <li><b>Notes</b> — anything else worth recording</li>
+    </ul>
+    <p>Expand the "View full charter" section on each committee to see the canonical purpose, composition, and meeting requirements.</p>
+
+    <h2 id="library">Committee Library</h2>
+    <p>All 10 standard standing committees with full charter content:</p>
+    <ol>
+      <li>Executive Committee</li>
+      <li>Finance & Audit Committee</li>
+      <li>Development & Fundraising Committee</li>
+      <li>Strategic Planning Committee</li>
+      <li>Membership & Outreach Committee</li>
+      <li>Education & Research Committee</li>
+      <li>Events & Meetings Committee</li>
+      <li>Technology & Digital Services Committee</li>
+      <li>Publications & Communications Committee</li>
+      <li>Exhibitions & Awards Committee</li>
+    </ol>
+    <p>Click any committee in the Library to see its full purpose, composition, responsibilities, and meeting requirements. Click <b>+ Add to My Committees</b> to adopt it for your org.</p>
+
+    <h2 id="adhoc">Ad Hoc Committees</h2>
+    <h3>How to establish an ad hoc committee</h3>
+    <ol>
+      <li><b>Board adopts a resolution</b> creating the committee. The resolution specifies purpose, scope, chair, members, deliverables, and sunset date.</li>
+      <li><b>Chair convenes the committee</b> and members agree on a meeting cadence.</li>
+      <li><b>Committee executes its scope</b> and reports back to the Board at agreed intervals.</li>
+      <li><b>Committee delivers its work</b> (a recommendation, a candidate slate, a finished plan).</li>
+      <li><b>Board formally dissolves the committee</b>, typically by accepting its final report.</li>
+    </ol>
+
+    <h3>Common ad hoc committee examples</h3>
+    <ul>
+      <li>Executive Director Search Committee (4–6 months)</li>
+      <li>Strategic Plan Task Force (6–12 months)</li>
+      <li>Bylaws Revision Committee (3–6 months)</li>
+      <li>Capital Campaign Steering Committee (12–36 months)</li>
+      <li>Audit RFP Selection Committee (2–3 months)</li>
+      <li>Board Diversity Task Force (6–12 months)</li>
+    </ul>
+
+    <p>The Ad Hoc Committees page lets you charter, track, and dissolve these committees. Each one captures purpose, scope, members, start and sunset dates, deliverables, and notes.</p>
+
+    <h2 id="transitions">Onboarding & Offboarding</h2>
+    <p>Four detailed checklists for transitions:</p>
+    <ul>
+      <li><b>Board Director Onboarding</b> (180-day timeline, 103 tasks) — from welcome packet to first significant contribution</li>
+      <li><b>Board Director Offboarding</b> (6-month transition, 90 tasks) — preserving relationships, knowledge, continuity</li>
+      <li><b>Committee Member/Chair Onboarding</b> (90-day timeline, 77 tasks)</li>
+      <li><b>Committee Member/Chair Offboarding</b> (3-month transition, 76 tasks)</li>
+    </ul>
+    <p>Each checklist is collapsible — expand to see tasks, check items off as you complete them. The progress bar shows where you stand on each transition.</p>
+    <div class="callout"><b>Why this matters:</b> Transitions are where nonprofit governance most often breaks. A new director arrives with no orientation; a departing chair leaves with all the institutional knowledge in their head. These checklists prevent both failure modes.</div>
+
+    <h2 id="templates">Templates Directory</h2>
+    <p>126 templates organized into 10 bundles (one per standing committee). Each entry shows:</p>
+    <ul>
+      <li>Template number (e.g., <code>2.1</code> for the first template in the Executive bundle)</li>
+      <li>Name</li>
+      <li>Description</li>
+      <li><b>Generate</b> button (for the most-requested templates) or <b>Source doc</b> indicator (still in Word format)</li>
+    </ul>
+    <p>Clicking <b>Generate</b> opens the template in a new tab with starter placeholders you can replace with your organization's specifics.</p>
+
+    <h2 id="xref">Cross-Reference Matrix</h2>
+    <p>Shows which templates are owned by one committee but used by others. For example, the Conflict of Interest Disclosure is owned by Finance & Audit, but every committee member signs one. Understanding these shared dependencies helps prevent committee silos and ensures policies are applied consistently.</p>
+
+    <h2 id="build">Build Handbook</h2>
+    <p>Assembles all your active standing committees and ad hoc committees into a single document — purpose, composition, current chairs and members, meeting cadence, adoption status. Three outputs:</p>
+    <ul>
+      <li><b>Preview (HTML)</b> — opens in a new tab, print-ready</li>
+      <li><b>Download .html</b> — saves the file locally</li>
+      <li><b>Download .docx</b> — generates a Word document for editing or board distribution</li>
+    </ul>
+    <p>The output is intended to slot into the larger Board Handbook as the "Committees" section. If you're using our Board Handbook Builder tool, you can paste the relevant pieces directly there.</p>
+
+    <h2 id="team">Team collaboration</h2>
+    <p>Multiple staff and board members may contribute to committee management. Leader and member roles work the same as in our other apps:</p>
+    <ul>
+      <li><span class="role-pill pill-leader">Leader</span> — manages the team, invites members, regenerates team code, upgrades to Pro</li>
+      <li><span class="role-pill pill-member">Member</span> — edits committee records, tracks meetings, runs onboarding checklists</li>
+    </ul>
+
+    <h2 id="pro">Pro vs Free</h2>
+    <table>
+      <tr><th>Feature</th><th>Free</th><th>Pro</th></tr>
+      <tr><td>Unlimited standing & ad hoc committees</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>All 10 charters + 126 template directory</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>4 onboarding/offboarding checklists</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Handbook generator (HTML + .docx)</td><td>Yes</td><td>Yes</td></tr>
+      <tr><td>Team seats</td><td>3</td><td>Unlimited</td></tr>
+      <tr><td>Priority support</td><td>—</td><td>Yes</td></tr>
+      <tr><td>Price</td><td>$0</td><td>$29 / month</td></tr>
+    </table>
+
+    <h2 id="disclaimer">Disclaimer</h2>
+    <p>The charters and templates in this tool are general best-practice models. Every state's nonprofit law differs slightly, and your bylaws control. Have legal counsel review any charter before formal Board adoption.</p>
+
+    <p style="margin-top:32px;padding-top:18px;border-top:1px solid var(--border);font-size:13px;color:var(--muted)">Build Your Club Academy · Standing Committees User Guide</p>
+  </article>
+</div>
+
+<script>
+const sections = document.querySelectorAll('h2[id]');
+const links = document.querySelectorAll('.toc a');
+const linkByHash = {};
+links.forEach(l => { linkByHash['#'+l.getAttribute('href').slice(1)] = l; });
+function onScroll(){
+  let active = null; const top = 100;
+  sections.forEach(s => { if (s.getBoundingClientRect().top <= top) active = s.id; });
+  links.forEach(l => l.classList.remove('active'));
+  if (active && linkByHash['#'+active]) linkByHash['#'+active].classList.add('active');
+}
+window.addEventListener('scroll', onScroll, { passive:true }); onScroll();
+</script>
+</body></html>

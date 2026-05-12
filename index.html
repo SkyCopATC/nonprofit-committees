@@ -1,0 +1,2968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Build Your Club — Nonprofit Standing Committees</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f0f4f8;color:#1a1a2e;font-size:14px;-webkit-font-smoothing:antialiased}
+:root{--navy:#1B3A5C;--teal:#2A7B6F;--gold:#D4A017;--red:#c0392b;--green:#2d7a4f;--bg:#f0f4f8;--white:#fff;--border:#e2e8f0;--text:#1a1a2e;--muted:#64748b;--light:#f8fafc}
+.hidden{display:none!important}
+
+/* ── AUTH SCREENS ── */
+.auth-wrap{min-height:100vh;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;padding:24px}
+.auth-card{background:var(--white);border-radius:24px;padding:40px;width:100%;max-width:440px;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.auth-logo{width:48px;height:48px;background:var(--navy);border-radius:14px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:22px;font-weight:700;margin:0 auto 20px}
+.auth-title{font-size:24px;font-weight:700;color:var(--navy);text-align:center;margin-bottom:6px}
+.auth-sub{font-size:14px;color:var(--muted);text-align:center;margin-bottom:24px}
+.auth-tabs{display:flex;background:var(--light);border-radius:10px;padding:4px;margin-bottom:20px}
+.auth-tab{flex:1;padding:8px;text-align:center;font-size:13px;font-weight:600;cursor:pointer;border-radius:8px;color:var(--muted);transition:.15s}
+.auth-tab.active{background:#fff;color:var(--navy);box-shadow:0 1px 3px rgba(0,0,0,.06)}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12px;font-weight:600;color:var(--text);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}
+.field input,.field select,.field textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:14px;color:var(--text);background:#fff;font-family:inherit;transition:.15s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:none;border-color:var(--teal)}
+.field textarea{resize:vertical;min-height:80px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:11px 22px;border-radius:10px;font-size:14px;font-weight:600;cursor:pointer;border:none;transition:.2s;white-space:nowrap;font-family:inherit}
+.btn-primary{background:var(--navy);color:#fff;width:100%}
+.btn-primary:hover{background:#264a73}
+.btn-ghost{background:transparent;color:var(--navy)}
+.btn-ghost:hover{background:var(--light)}
+.btn-teal{background:var(--teal);color:#fff}
+.btn-teal:hover{background:#236b60}
+.btn-outline{background:#fff;color:var(--navy);border:1.5px solid var(--border)}
+.btn-outline:hover{border-color:var(--navy)}
+.auth-foot{text-align:center;margin-top:18px;font-size:13px;color:var(--muted)}
+.auth-foot a{color:var(--navy);font-weight:600;cursor:pointer}
+
+/* ── ONBOARDING ── */
+.ob-wrap{min-height:100vh;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;padding:24px}
+.ob-card{background:var(--white);border-radius:24px;width:100%;max-width:680px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.2)}
+.ob-progress{display:flex;background:var(--light);height:4px}
+.ob-progress span{flex:1;background:var(--border);transition:.3s}
+.ob-progress span.done{background:var(--teal)}
+.ob-body{padding:40px}
+.ob-step{font-size:12px;color:var(--teal);font-weight:700;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.ob-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.ob-desc{font-size:14px;color:var(--muted);margin-bottom:24px}
+.ob-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:24px}
+.ob-pick{padding:14px;border:1.5px solid var(--border);border-radius:10px;cursor:pointer;text-align:center;transition:.15s;background:#fff}
+.ob-pick:hover{border-color:var(--teal)}
+.ob-pick.selected{border-color:var(--teal);background:rgba(42,123,111,.06)}
+.ob-pick-title{font-size:13px;font-weight:600;color:var(--navy)}
+.ob-pick-desc{font-size:11px;color:var(--muted);margin-top:3px}
+.ob-nav{display:flex;justify-content:space-between;align-items:center;margin-top:28px;gap:10px}
+
+/* ── SIDEBAR ── */
+.sidebar{width:240px;background:var(--navy);min-height:100vh;display:flex;flex-direction:column;flex-shrink:0;position:fixed;left:0;top:0;bottom:0;z-index:10}
+.sidebar-logo{padding:20px;border-bottom:1px solid rgba(255,255,255,.08);display:flex;align-items:center;gap:10px}
+.sidebar-logo .mark{width:34px;height:34px;background:var(--teal);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:16px;flex-shrink:0}
+.sidebar-logo .text p{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
+.sidebar-logo .text span{font-size:11px;color:rgba(255,255,255,.4);line-height:1}
+.sidebar-org{padding:10px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+.sidebar-org .label{font-size:10px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.sidebar-org .name{font-size:12px;color:rgba(255,255,255,.8);font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sidebar-nav{flex:1;padding:10px 8px;display:flex;flex-direction:column;gap:2px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:10px 12px;color:rgba(255,255,255,.7);background:transparent;border:none;border-radius:8px;font-size:13px;font-weight:500;cursor:pointer;text-align:left;font-family:inherit;transition:.15s;width:100%}
+.nav-item:hover{background:rgba(255,255,255,.05);color:#fff}
+.nav-item.active{background:rgba(255,255,255,.08);color:#fff}
+.nav-item .icon{font-size:15px;width:18px;text-align:center}
+.sidebar-bottom{padding:12px;border-top:1px solid rgba(255,255,255,.08)}
+.user-row{display:flex;align-items:center;gap:10px;padding:6px}
+.user-avatar{width:28px;height:28px;border-radius:50%;background:var(--teal);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:700;flex-shrink:0}
+.user-info{flex:1;min-width:0}
+.u-name{font-size:12px;color:#fff;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.signout-btn{background:transparent;border:none;color:rgba(255,255,255,.5);cursor:pointer;font-size:14px;padding:4px;font-family:inherit}
+.signout-btn:hover{color:#fff}
+.signout-btn-full{width:100%;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);color:rgba(255,255,255,.9);cursor:pointer;font-size:13px;font-weight:600;padding:10px 12px;border-radius:8px;font-family:inherit;margin-top:8px;transition:.15s;display:flex;align-items:center;justify-content:center;gap:6px}
+.signout-btn-full:hover{background:rgba(255,255,255,.18);color:#fff;border-color:rgba(255,255,255,.25)}
+
+/* ── MAIN CONTENT ── */
+.main{margin-left:240px;flex:1;min-height:100vh}
+.page{padding:32px;max-width:1100px}
+.page-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:28px;gap:16px;flex-wrap:wrap}
+.page-title{font-size:24px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.page-sub{font-size:13px;color:var(--muted)}
+
+/* ── CARDS / SECTIONS ── */
+.section{background:#fff;border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:20px}
+.section-title{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.section-title .badge{font-size:11px;font-weight:600;padding:3px 8px;border-radius:6px}
+.badge-red{background:#fde8e6;color:var(--red)}
+.badge-amber{background:#fff4d6;color:#a86b00}
+.badge-green{background:#dcf5e7;color:var(--green)}
+.badge-grey{background:#eef2f7;color:var(--muted)}
+.badge-blue{background:#dbeafe;color:var(--navy)}
+
+/* Dashboard stat tiles */
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:24px}
+.stat-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px}
+.stat-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.stat-num{font-size:28px;font-weight:700;color:var(--navy);line-height:1}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:4px}
+.stat-card.alert{border-color:var(--red)}
+.stat-card.alert .stat-num{color:var(--red)}
+
+/* Deadline list rows */
+.dl-row{display:flex;align-items:center;gap:14px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fff;transition:.15s}
+.dl-row:hover{border-color:var(--teal)}
+.dl-row.overdue{border-left:3px solid var(--red)}
+.dl-row.soon{border-left:3px solid var(--gold)}
+.dl-row.upcoming{border-left:3px solid var(--teal)}
+.dl-row.done{opacity:.55}
+.dl-when{font-size:12px;font-weight:700;text-align:center;min-width:64px;padding:6px 8px;border-radius:8px;background:var(--light);color:var(--navy)}
+.dl-when.overdue{background:#fde8e6;color:var(--red)}
+.dl-when.soon{background:#fff4d6;color:#a86b00}
+.dl-info{flex:1;min-width:0}
+.dl-name{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:2px}
+.dl-meta{font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dl-status{font-size:11px;font-weight:600;padding:4px 10px;border-radius:6px;white-space:nowrap}
+.dl-status select{background:transparent;border:none;cursor:pointer;font-family:inherit;font-size:11px;font-weight:600;color:inherit}
+
+/* Calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media(max-width:900px){.cal-grid{grid-template-columns:repeat(2,1fr)}}
+.cal-month{background:#fff;border:1px solid var(--border);border-radius:12px;padding:14px}
+.cal-month-name{font-size:13px;font-weight:700;color:var(--navy);padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:8px;text-transform:uppercase;letter-spacing:.04em}
+.cal-event{font-size:12px;padding:6px 0;color:var(--text);border-bottom:1px dashed var(--border)}
+.cal-event:last-child{border:none}
+.cal-event .day{font-weight:700;color:var(--navy);margin-right:6px;font-size:11px}
+.cal-event .ev-empty{color:var(--muted);font-style:italic}
+
+/* Filing detail modal-like view */
+.filing-detail{padding:18px;background:var(--light);border-radius:10px;margin-top:10px;font-size:13px;color:var(--text);line-height:1.6;display:none}
+.filing-detail.show{display:block}
+.filing-detail h4{font-size:13px;color:var(--navy);font-weight:700;margin:10px 0 4px;text-transform:uppercase;letter-spacing:.04em}
+.filing-detail h4:first-child{margin-top:0}
+.filing-detail a{color:var(--teal);font-weight:600}
+
+/* Documents */
+.doc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.doc-card{background:#fff;border:1.5px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:.15s;display:flex;flex-direction:column;gap:6px}
+.doc-card:hover{border-color:var(--teal);transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.06)}
+.doc-icon{font-size:22px;margin-bottom:4px}
+.doc-name{font-size:14px;font-weight:700;color:var(--navy)}
+.doc-desc{font-size:12px;color:var(--muted);line-height:1.4;flex:1}
+.doc-meta{font-size:11px;color:var(--muted);margin-top:6px}
+
+/* Doc generator form */
+.gen-form{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:20px}
+.gen-output{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;font-family:Georgia,serif;line-height:1.6;color:var(--text);min-height:200px;white-space:pre-wrap;font-size:14px}
+.gen-output.placeholder{color:var(--muted);font-style:italic;font-family:inherit;font-size:13px;display:flex;align-items:center;justify-content:center;text-align:center}
+.gen-toolbar{display:flex;gap:8px;justify-content:flex-end;margin-bottom:12px;flex-wrap:wrap}
+
+/* Education */
+.edu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px}
+.edu-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:.15s}
+.edu-card:hover{border-color:var(--teal);transform:translateY(-2px)}
+.edu-tag{font-size:10px;font-weight:700;color:var(--teal);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.edu-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.edu-snip{font-size:12px;color:var(--muted);line-height:1.4}
+.edu-article{background:#fff;border:1px solid var(--border);border-radius:14px;padding:32px;line-height:1.7;color:var(--text);font-size:14px}
+.edu-article h2{font-size:22px;color:var(--navy);margin-bottom:8px}
+.edu-article h3{font-size:15px;color:var(--navy);margin:18px 0 6px}
+.edu-article p{margin-bottom:12px}
+.edu-article ul{margin-left:22px;margin-bottom:12px}
+.edu-article li{margin-bottom:4px}
+.edu-back{background:transparent;border:none;color:var(--teal);font-weight:600;cursor:pointer;font-size:13px;padding:0;margin-bottom:16px;font-family:inherit}
+
+/* Settings */
+.settings-card{background:#fff;border:1px solid var(--border);border-radius:14px;padding:24px;margin-bottom:16px}
+.settings-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid var(--border)}
+.settings-row:last-child{border:none}
+.settings-label{font-size:13px;font-weight:600;color:var(--text)}
+.settings-value{font-size:13px;color:var(--muted)}
+
+/* ── MOBILE SIDEBAR TOGGLE ── */
+.mobile-toggle{display:none;position:fixed;top:12px;left:12px;z-index:30;background:var(--navy);color:#fff;border:none;border-radius:8px;width:42px;height:42px;font-size:22px;line-height:1;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.15);align-items:center;justify-content:center;padding:0}
+.sidebar-close{display:none;position:absolute;top:12px;right:12px;background:rgba(255,255,255,.08);border:none;color:#fff;width:34px;height:34px;font-size:20px;line-height:1;cursor:pointer;padding:0;border-radius:8px;z-index:5;align-items:center;justify-content:center}
+.sidebar-close:hover{background:rgba(255,255,255,.18)}
+.sidebar-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:9}
+.sidebar-backdrop.show{display:block}
+@media(max-width:768px){
+  .mobile-toggle{display:flex}
+  .sidebar-close{display:flex}
+  .sidebar{transform:translateX(-100%);transition:transform .25s ease;width:260px;box-shadow:0 0 24px rgba(0,0,0,.25)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .page{padding:64px 16px 24px}
+}
+
+
+/* Modal */
+.modal-bg{position:fixed;inset:0;background:rgba(15,23,42,.55);display:flex;align-items:center;justify-content:center;padding:24px;z-index:50}
+.modal-box{background:#fff;border-radius:20px;padding:32px;width:100%;max-width:480px;box-shadow:0 20px 60px rgba(0,0,0,.3);max-height:90vh;overflow:auto}
+.modal-title{font-size:20px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--muted);margin-bottom:18px}
+.modal-close{background:transparent;border:none;color:var(--muted);font-size:22px;cursor:pointer;float:right;line-height:1;padding:0}
+.modal-actions{display:flex;gap:8px;justify-content:flex-end;margin-top:18px;flex-wrap:wrap}
+
+/* Pro badge in sidebar */
+.pro-badge{background:linear-gradient(135deg,var(--gold),#b58814);border-radius:10px;padding:10px 12px;cursor:pointer;margin-bottom:10px;transition:.15s}
+.pro-badge:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(212,160,23,.3)}
+.pro-badge.is-pro{background:linear-gradient(135deg,var(--teal),#236b60);cursor:default}
+.pro-badge.is-pro:hover{transform:none;box-shadow:none}
+.badge-label{font-size:12px;font-weight:700;color:#fff;line-height:1.2}
+.badge-sub{font-size:10px;color:rgba(255,255,255,.85);margin-top:2px}
+
+/* Team page */
+.team-code-display{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;padding:24px;border-radius:14px;text-align:center;margin-bottom:20px}
+.team-code-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;opacity:.8;margin-bottom:8px}
+.team-code-value{font-size:34px;font-weight:700;letter-spacing:.12em;font-family:'Courier New',monospace;margin-bottom:10px}
+.team-member-row{display:flex;align-items:center;gap:12px;padding:12px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fff}
+.team-member-info{flex:1;min-width:0}
+.team-member-name{font-size:13px;font-weight:600;color:var(--navy)}
+.team-member-email{font-size:11px;color:var(--muted)}
+.role-pill{font-size:10px;font-weight:700;padding:3px 8px;border-radius:6px;text-transform:uppercase;letter-spacing:.04em}
+.role-leader{background:#dbeafe;color:var(--navy)}
+.role-member{background:#eef2f7;color:var(--muted)}
+
+/* History */
+.hist-row{display:flex;align-items:center;gap:12px;padding:11px 12px;border:1px solid var(--border);border-radius:10px;margin-bottom:6px;background:#fff;font-size:13px}
+.hist-when{font-size:11px;color:var(--muted);min-width:120px;white-space:nowrap}
+.hist-who{font-size:12px;font-weight:600;color:var(--navy);min-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hist-what{flex:1;color:var(--text)}
+.hist-status-chip{font-size:10px;font-weight:600;padding:2px 7px;border-radius:5px;text-transform:uppercase;letter-spacing:.04em;display:inline-block}
+
+/* Analytics */
+.score-card{background:linear-gradient(135deg,var(--navy),var(--teal));color:#fff;padding:24px;border-radius:16px;margin-bottom:20px;text-align:center}
+.score-num{font-size:54px;font-weight:700;line-height:1}
+.score-label{font-size:13px;opacity:.85;margin-top:4px}
+.bar-chart{display:flex;flex-direction:column;gap:10px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:13px}
+.bar-label{min-width:140px;color:var(--text);font-weight:600}
+.bar-track{flex:1;background:var(--light);border-radius:6px;height:22px;position:relative;overflow:hidden}
+.bar-fill{height:100%;background:var(--teal);border-radius:6px;display:flex;align-items:center;padding-left:8px;color:#fff;font-size:11px;font-weight:600;min-width:24px}
+.bar-meta{font-size:11px;color:var(--muted);min-width:60px;text-align:right}
+
+/* Admin */
+.admin-team{display:flex;align-items:center;gap:12px;padding:14px;border:1px solid var(--border);border-radius:10px;margin-bottom:8px;background:#fff;cursor:pointer;transition:.15s}
+.admin-team:hover{border-color:var(--teal);transform:translateY(-1px)}
+.admin-team-info{flex:1}
+.admin-team-name{font-size:14px;font-weight:700;color:var(--navy)}
+.admin-team-meta{font-size:11px;color:var(--muted);margin-top:2px}
+.admin-banner{background:linear-gradient(135deg,var(--gold),#b58814);color:#fff;padding:14px 18px;border-radius:12px;margin-bottom:20px;font-size:13px}
+.admin-banner b{font-weight:700}
+
+/* Top-right sign-out (visible on every app page) */
+.btn-red{background:var(--red);color:#fff;border:none}
+.btn-red:hover{background:#9c2d22}
+.topbar-back{position:fixed;top:16px;left:262px;background:#fff;border:1px solid var(--border);color:var(--navy);font-size:12px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;z-index:20;font-family:inherit;transition:.15s;display:none;align-items:center;gap:5px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.topbar-back:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(max-width:768px){
+  .topbar-back{top:14px;left:64px;font-size:11px;padding:7px 11px}
+}
+.topbar-signout{position:fixed;top:16px;right:20px;background:#fff;border:1px solid var(--border);color:var(--navy);font-size:12px;font-weight:600;padding:8px 14px;border-radius:8px;cursor:pointer;z-index:20;font-family:inherit;transition:.15s;display:flex;align-items:center;gap:5px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.topbar-signout:hover{background:var(--navy);color:#fff;border-color:var(--navy)}
+@media(max-width:768px){
+  .topbar-signout{top:14px;right:14px;font-size:11px;padding:7px 11px}
+}
+
+/* Misc */
+.empty-state{padding:40px;text-align:center;color:var(--muted);font-size:13px}
+.disclaimer{background:#fff7d6;border:1px solid #f5d77f;border-radius:10px;padding:12px;font-size:12px;color:#5c4400;margin-bottom:20px;line-height:1.5}
+.disclaimer b{color:#3d2d00}
+</style>
+</head>
+<body>
+
+<!-- ════════════ AUTH ════════════ -->
+<div id="screen-auth" class="auth-wrap hidden">
+  <div class="auth-card">
+    <div class="auth-logo">B</div>
+    <h1 class="auth-title">Build Your Club</h1>
+    <p class="auth-sub">Standing Committees</p>
+    <div class="auth-tabs">
+      <div class="auth-tab active" id="tab-signin" onclick="switchAuthTab('signin')">Sign In</div>
+      <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</div>
+    </div>
+    <div id="form-signin">
+      <div class="field"><label>Email</label><input type="email" id="si-email" placeholder="you@nonprofit.org"></div>
+      <div class="field"><label>Password</label><input type="password" id="si-pass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doSignIn()"></div>
+      <button class="btn btn-primary" onclick="doSignIn()">Sign In</button>
+      <p class="auth-foot">Demo account: <b>demo@example.org</b> / <b>demo</b></p>
+    </div>
+    <div id="form-signup" class="hidden">
+      <div class="field"><label>Your Name</label><input type="text" id="su-name" placeholder="Pat Lee"></div>
+      <div class="field"><label>Email</label><input type="email" id="su-email" placeholder="you@nonprofit.org"></div>
+      <div class="field"><label>Password</label><input type="password" id="su-pass" placeholder="At least 6 characters" onkeydown="if(event.key==='Enter')doSignUp()"></div>
+      <button class="btn btn-primary" onclick="doSignUp()">Create Account →</button>
+      <p class="auth-foot">By creating an account you agree this is a demo and no real data is stored remotely.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ ONBOARDING ════════════ -->
+<div id="screen-onboard" class="ob-wrap hidden">
+  <div class="ob-card">
+    <div class="ob-progress"><span id="op-1" class="done"></span><span id="op-2"></span></div>
+    <div class="ob-body" id="ob-step-1">
+      <div class="ob-step">Step 1 of 2</div>
+      <h2 class="ob-title">What's your organization called?</h2>
+      <p class="ob-desc">We'll use this on your committee handbook and other generated documents.</p>
+      <div class="field"><label>Organization Legal Name</label><input type="text" id="ob-orgname" placeholder="Build Your Club Foundation" onkeydown="if(event.key==='Enter')obNext(1)"></div>
+      <div class="ob-nav">
+        <button class="btn btn-ghost" onclick="signOut()">← Sign out</button>
+        <button class="btn btn-teal" onclick="obNext(1)">Continue →</button>
+      </div>
+    </div>
+    <div class="ob-body hidden" id="ob-step-2">
+      <div class="ob-step">Step 2 of 2</div>
+      <h2 class="ob-title">What size is your organization?</h2>
+      <p class="ob-desc">This determines which committees we recommend. You can change this later.</p>
+      <div class="ob-grid" id="ob-sizes" style="grid-template-columns:1fr"></div>
+      <div class="ob-nav">
+        <button class="btn btn-ghost" onclick="obBack(2)">← Back</button>
+        <button class="btn btn-teal" onclick="finishOnboarding()">Finish setup →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════ TEAM CHOICE (after sign-up) ════════════ -->
+<div id="screen-teamchoice" class="auth-wrap hidden">
+  <div class="auth-card">
+    <div class="auth-logo">B</div>
+    <h1 class="auth-title">Welcome aboard</h1>
+    <p class="auth-sub">Are you starting a new compliance tracker or joining a teammate?</p>
+    <button class="btn btn-primary" style="margin-bottom:10px" onclick="chooseTeamPath('new')">Start a new organization →</button>
+    <button class="btn btn-outline" style="width:100%;margin-bottom:14px" onclick="chooseTeamPath('join')">Join an existing team</button>
+    <div id="join-team-section" class="hidden">
+      <div class="field"><label>Team Code</label><input type="text" id="join-code" placeholder="e.g. ABC234" onkeydown="if(event.key==='Enter')joinTeamByCode()" style="text-transform:uppercase;letter-spacing:.1em;font-family:'Courier New',monospace"></div>
+      <button class="btn btn-teal" style="width:100%" onclick="joinTeamByCode()">Join Team →</button>
+    </div>
+    <p class="auth-foot" style="margin-top:18px"><a onclick="signOut()">← Sign out</a></p>
+  </div>
+</div>
+
+<!-- ════════════ MAIN APP ════════════ -->
+<div id="screen-app" class="hidden" style="display:flex">
+  <button class="mobile-toggle" type="button" onclick="toggleSidebar()" aria-label="Open menu">☰</button>
+  <button class="topbar-signout" type="button" onclick="signOut()" title="Sign out">↩ Sign Out</button>
+  <button class="topbar-back" id="back-to-dash" type="button" onclick="navigate('dashboard')" title="Back to dashboard">← Dashboard</button>
+  <div class="sidebar-backdrop" onclick="closeSidebar()"></div>
+  <aside class="sidebar">
+    <button class="sidebar-close" type="button" onclick="closeSidebar()" aria-label="Close menu">✕</button>
+    <div class="sidebar-logo">
+      <div class="mark">B</div>
+      <div class="text"><p>Build Your Club</p><span>Committees</span></div>
+    </div>
+    <div class="sidebar-org"><div class="label">Organization</div><div class="name" id="sb-org">—</div></div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="nav-dashboard" onclick="navigate('dashboard')"><span class="icon">⊞</span> Dashboard</button>
+      <button class="nav-item" id="nav-mycommittees" onclick="navigate('mycommittees')"><span class="icon">🏛️</span> My Committees</button>
+      <button class="nav-item" id="nav-library" onclick="navigate('library')"><span class="icon">📚</span> Committee Library</button>
+      <button class="nav-item" id="nav-adhoc" onclick="navigate('adhoc')"><span class="icon">✦</span> Ad Hoc Committees</button>
+      <button class="nav-item" id="nav-transitions" onclick="navigate('transitions')"><span class="icon">🔄</span> Onboarding/Offboarding</button>
+      <button class="nav-item" id="nav-templates" onclick="navigate('templates')"><span class="icon">📋</span> Templates Directory</button>
+      <button class="nav-item" id="nav-xref" onclick="navigate('xref')"><span class="icon">🔗</span> Cross-Reference</button>
+      <button class="nav-item" id="nav-build" onclick="navigate('build')"><span class="icon">📕</span> Build Handbook</button>
+      <a class="nav-item" href="Guide.html" target="_blank" rel="noopener noreferrer" style="text-decoration:none"><span class="icon">📖</span> User Guide</a>
+      <button class="nav-item" id="nav-history" onclick="navigate('history')"><span class="icon">🕐</span> History</button>
+      <button class="nav-item" id="nav-analytics" onclick="navigate('analytics')"><span class="icon">📊</span> Analytics</button>
+      <button class="nav-item" id="nav-team" onclick="navigate('team')"><span class="icon">👥</span> Team</button>
+      <button class="nav-item" id="nav-settings" onclick="navigate('settings')"><span class="icon">⚙</span> Settings</button>
+      <button class="nav-item hidden" id="nav-admin" onclick="navigate('admin')"><span class="icon">🔐</span> Admin</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="pro-badge" id="pro-badge" onclick="openUpgradeModal()">
+        <div class="badge-label" id="pro-label">⚡ Upgrade to Pro</div>
+        <div class="badge-sub" id="pro-sub">$29/month · 14-day free trial</div>
+      </div>
+      <div class="user-row">
+        <div class="user-avatar" id="sb-avatar">?</div>
+        <div class="user-info"><div class="u-name" id="sb-uname">—</div></div>
+      </div>
+      <button class="signout-btn-full" onclick="signOut()" title="Sign out">↩ Sign Out</button>
+    </div>
+  </aside>
+
+  <main class="main">
+    <div id="page-dashboard" class="page"></div>
+    <div id="page-mycommittees" class="page hidden"></div>
+    <div id="page-library" class="page hidden"></div>
+    <div id="page-adhoc" class="page hidden"></div>
+    <div id="page-transitions" class="page hidden"></div>
+    <div id="page-templates" class="page hidden"></div>
+    <div id="page-xref" class="page hidden"></div>
+    <div id="page-build" class="page hidden"></div>
+    <div id="page-settings" class="page hidden"></div>
+
+    <div id="page-team" class="page hidden"></div>
+    <div id="page-history" class="page hidden"></div>
+    <div id="page-analytics" class="page hidden"></div>
+    <div id="page-admin" class="page hidden"></div>
+  </main>
+</div>
+
+<!-- Upgrade modal -->
+<div id="upgrade-modal" class="modal-bg hidden">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeUpgradeModal()">✕</button>
+    <div style="font-size:28px;margin-bottom:8px">⚡</div>
+    <div class="modal-title">Upgrade to Committees Pro</div>
+    <div class="modal-sub">Unlock unlimited team seats, priority support, and advanced committee management features.</div>
+    <ul style="font-size:13px;color:var(--text);line-height:1.7;margin:0 0 18px 18px">
+      <li><b>Unlimited team members</b> — Free is capped at 3 seats</li>
+      <li>Priority email support</li>
+      <li>Custom committee charters & templates (coming soon)</li>
+      <li>Export your data anytime</li>
+    </ul>
+    <div style="background:var(--light);padding:14px;border-radius:10px;text-align:center;margin-bottom:8px">
+      <div style="font-size:24px;font-weight:700;color:var(--navy)">$29<span style="font-size:13px;color:var(--muted);font-weight:400">/month</span></div>
+      <div style="font-size:12px;color:var(--muted)">14-day free trial · cancel anytime</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeUpgradeModal()">Maybe later</button>
+      <button class="btn btn-teal" onclick="startProTrial()">Start 14-day Free Trial →</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ═════════════════════════════════════════════
+//  STATIC DATA — org types, brackets, states
+// ═════════════════════════════════════════════
+const STATES = {
+  AL:'Alabama', AK:'Alaska', AZ:'Arizona', AR:'Arkansas', CA:'California',
+  CO:'Colorado', CT:'Connecticut', DE:'Delaware', DC:'District of Columbia',
+  FL:'Florida', GA:'Georgia', HI:'Hawaii', ID:'Idaho', IL:'Illinois',
+  IN:'Indiana', IA:'Iowa', KS:'Kansas', KY:'Kentucky', LA:'Louisiana',
+  ME:'Maine', MD:'Maryland', MA:'Massachusetts', MI:'Michigan', MN:'Minnesota',
+  MS:'Mississippi', MO:'Missouri', MT:'Montana', NE:'Nebraska', NV:'Nevada',
+  NH:'New Hampshire', NJ:'New Jersey', NM:'New Mexico', NY:'New York',
+  NC:'North Carolina', ND:'North Dakota', OH:'Ohio', OK:'Oklahoma', OR:'Oregon',
+  PA:'Pennsylvania', RI:'Rhode Island', SC:'South Carolina', SD:'South Dakota',
+  TN:'Tennessee', TX:'Texas', UT:'Utah', VT:'Vermont', VA:'Virginia',
+  WA:'Washington', WV:'West Virginia', WI:'Wisconsin', WY:'Wyoming'
+};
+
+// ═════════════════════════════════════════════
+//  STATE & PERSISTENCE
+// ═════════════════════════════════════════════
+const state = {
+  users: {},     // email -> { name, password, teamId, isSuperAdmin }
+  teams: {},     // teamId -> { id, profile, statuses, history, members:{email:role}, isPro, createdAt }
+  currentEmail: null,
+  selectedDoc: null,
+  selectedFiling: null,
+  selectedArticle: null,
+  adminViewingTeam: null
+};
+
+function save(){
+  try { localStorage.setItem('bya_committees_v1', JSON.stringify(state)); } catch(e){}
+}
+function load(){
+  try {
+    const raw = localStorage.getItem('bya_committees_v1');
+    if (raw){
+      const data = JSON.parse(raw);
+      Object.assign(state, data);
+    }
+  } catch(e){}
+}
+function currentUser(){ return state.currentEmail ? state.users[state.currentEmail] : null; }
+function currentTeam(){
+  if (state.adminViewingTeam && state.teams[state.adminViewingTeam]) return state.teams[state.adminViewingTeam];
+  const u = currentUser();
+  if (!u || !u.teamId) return null;
+  return state.teams[u.teamId] || null;
+}
+function isSuperAdmin(){ const u = currentUser(); return !!(u && u.isSuperAdmin); }
+function teamRole(){
+  const u = currentUser(); const t = currentTeam();
+  if (!u || !t) return null;
+  return t.members && t.members[state.currentEmail] || null;
+}
+function isLeader(){ return teamRole() === 'leader'; }
+
+function generateTeamCode(){
+  const chars = 'ABCDEFGHJKMNPQRSTUVWXYZ23456789';
+  let code;
+  do {
+    code = '';
+    for (let i=0;i<6;i++) code += chars[Math.floor(Math.random()*chars.length)];
+  } while (state.teams[code]);
+  return code;
+}
+function createTeam(leaderEmail, profile){
+  const id = generateTeamCode();
+  state.teams[id] = {
+    id, profile: profile || {}, statuses: {}, history: [],
+    members: { [leaderEmail]: 'leader' },
+    isPro: false, isOnTrial: false, trialEnds: null,
+    proposals: [], templates: {}, funderLibrary: [], activeProposalId: null,
+    createdAt: new Date().toISOString()
+  };
+  return id;
+}
+function logHistory(entry){
+  const t = currentTeam();
+  if (!t) return;
+  t.history = t.history || [];
+  t.history.unshift({ ...entry, when: new Date().toISOString(), by: state.currentEmail });
+  if (t.history.length > 200) t.history.length = 200;
+}
+
+// Seed demo + admin once
+function seedDemo(){
+  if (!state.users['demo@example.org']){
+    state.users['demo@example.org'] = { name: 'Demo Leader', password: 'demo', teamId: null, isSuperAdmin: false };
+    const tid = createTeam('demo@example.org', { orgName:'Build Your Club Foundation', orgSize:'medium' });
+    state.users['demo@example.org'].teamId = tid;
+    seedCommitteesForTeam(state.teams[tid]);
+    state.users['member@example.org'] = { name: 'Demo Member', password: 'demo', teamId: tid, isSuperAdmin: false };
+    state.teams[tid].members['member@example.org'] = 'member';
+  }
+  if (!state.users['skycopatc@yahoo.com']){
+    state.users['skycopatc@yahoo.com'] = { name: 'Steve (Admin)', password: 'Buildyourclub', teamId: null, isSuperAdmin: true };
+  }
+  save();
+}
+
+// ═════════════════════════════════════════════
+//  AUTH
+// ═════════════════════════════════════════════
+function switchAuthTab(which){
+  document.getElementById('tab-signin').classList.toggle('active', which==='signin');
+  document.getElementById('tab-signup').classList.toggle('active', which==='signup');
+  document.getElementById('form-signin').classList.toggle('hidden', which!=='signin');
+  document.getElementById('form-signup').classList.toggle('hidden', which!=='signup');
+}
+function doSignIn(){
+  const email = (document.getElementById('si-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('si-pass').value;
+  if (!email || !pass) { alert('Email and password required'); return; }
+  const u = state.users[email];
+  if (!u || u.password !== pass) { alert('Email not found or password incorrect.\n\nTry demo@example.org / demo'); return; }
+  state.currentEmail = email;
+  state.adminViewingTeam = null;
+  save();
+  routeAfterAuth();
+}
+function routeAfterAuth(){
+  const u = currentUser();
+  if (u.isSuperAdmin && !u.teamId){ bootApp(); return; }   // admin lands in admin view
+  if (u.teamId && state.teams[u.teamId]) bootApp();
+  else showTeamChoice();
+}
+function doSignUp(){
+  const name = (document.getElementById('su-name').value || '').trim();
+  const email = (document.getElementById('su-email').value || '').trim().toLowerCase();
+  const pass = document.getElementById('su-pass').value;
+  if (!name || !email || !pass) { alert('All fields required'); return; }
+  if (pass.length < 6) { alert('Password must be at least 6 characters'); return; }
+  if (state.users[email]) { alert('Account already exists. Try signing in.'); return; }
+  state.users[email] = { name, password: pass, teamId: null, isSuperAdmin: false };
+  state.currentEmail = email;
+  save();
+  showTeamChoice();
+}
+
+// Team choice (between auth and onboarding)
+function showTeamChoice(){
+  document.getElementById('screen-auth').classList.add('hidden');
+  document.getElementById('screen-onboard').classList.add('hidden');
+  document.getElementById('screen-app').classList.add('hidden');
+  document.getElementById('screen-teamchoice').classList.remove('hidden');
+  document.getElementById('join-team-section').classList.add('hidden');
+}
+function chooseTeamPath(p){
+  if (p === 'new'){
+    document.getElementById('screen-teamchoice').classList.add('hidden');
+    startOnboarding();
+  } else {
+    document.getElementById('join-team-section').classList.remove('hidden');
+    document.getElementById('join-code').focus();
+  }
+}
+function joinTeamByCode(){
+  const code = (document.getElementById('join-code').value || '').trim().toUpperCase();
+  if (!code) { alert('Enter a team code'); return; }
+  const team = state.teams[code];
+  if (!team) { alert('That team code wasn\'t found. Double-check with the team leader.'); return; }
+  const u = currentUser();
+  // Enforce free-tier seat limit
+  const memberCount = Object.keys(team.members||{}).length;
+  if (!team.isPro && memberCount >= 3){
+    alert('This team is on the Free plan and already has 3 members. Ask the team leader to upgrade to Pro for unlimited seats.');
+    return;
+  }
+  team.members[state.currentEmail] = 'member';
+  u.teamId = code;
+  save();
+  bootApp();
+}
+function signOut(){
+  state.currentEmail = null;
+  save();
+  document.getElementById('screen-app').classList.add('hidden');
+  document.getElementById('screen-onboard').classList.add('hidden');
+  document.getElementById('screen-auth').classList.remove('hidden');
+}
+
+// ═════════════════════════════════════════════
+//  ONBOARDING
+// ═════════════════════════════════════════════
+let obData = {};
+function startOnboarding(){
+  const t = currentTeam();
+  obData = (t && t.profile) || {};
+  document.getElementById('ob-orgname').value = obData.orgName || '';
+  // Render org size options
+  const sg = document.getElementById('ob-sizes');
+  sg.innerHTML = ORG_SIZES.map(s => `<div class="ob-pick" data-id="${s.id}" onclick="pickOrgSize('${s.id}')"><div class="ob-pick-title">${s.label}</div><div class="ob-pick-desc">${s.desc}</div></div>`).join('');
+  if (obData.orgSize) pickOrgSize(obData.orgSize, true);
+  document.getElementById('screen-auth').classList.add('hidden');
+  document.getElementById('screen-teamchoice').classList.add('hidden');
+  document.getElementById('screen-app').classList.add('hidden');
+  document.getElementById('screen-onboard').classList.remove('hidden');
+  showOBStep(1);
+}
+function showOBStep(n){
+  for (let i=1;i<=2;i++) document.getElementById('ob-step-'+i).classList.toggle('hidden', i!==n);
+  for (let i=1;i<=2;i++) document.getElementById('op-'+i).classList.toggle('done', i<=n);
+}
+function obNext(from){
+  if (from===1){
+    const name = document.getElementById('ob-orgname').value.trim();
+    if (!name){ alert('Please enter your organization name'); return; }
+    obData.orgName = name;
+  }
+  showOBStep(from+1);
+}
+function obBack(from){ showOBStep(from-1); }
+function pickOrgSize(id, silent){
+  obData.orgSize = id;
+  document.querySelectorAll('#ob-sizes .ob-pick').forEach(el => el.classList.toggle('selected', el.dataset.id===id));
+}
+function finishOnboarding(){
+  if (!obData.orgSize){ alert('Please pick an organization size'); return; }
+  const u = currentUser();
+  if (u.teamId && state.teams[u.teamId]){
+    state.teams[u.teamId].profile = { ...state.teams[u.teamId].profile, ...obData };
+  } else {
+    const tid = createTeam(state.currentEmail, obData);
+    u.teamId = tid;
+  }
+  save();
+  bootApp();
+}
+
+// ═════════════════════════════════════════════
+//  APP BOOT
+// ═════════════════════════════════════════════
+function bootApp(){
+  document.getElementById('screen-auth').classList.add('hidden');
+  document.getElementById('screen-onboard').classList.add('hidden');
+  document.getElementById('screen-teamchoice').classList.add('hidden');
+  document.getElementById('screen-app').classList.remove('hidden');
+  const u = currentUser();
+  const t = currentTeam();
+  const orgLabel = t && t.profile && t.profile.orgName ? t.profile.orgName : (u.isSuperAdmin ? 'Super Admin' : '—');
+  document.getElementById('sb-org').textContent = orgLabel;
+  document.getElementById('sb-uname').textContent = u.name + (u.isSuperAdmin ? ' (Admin)' : '');
+  document.getElementById('sb-avatar').textContent = (u.name||'?').charAt(0).toUpperCase();
+  // Show admin nav only for super-admin
+  document.getElementById('nav-admin').classList.toggle('hidden', !u.isSuperAdmin);
+  // Pro badge
+  updateProBadge();
+  // Default page: admin for super-admin, dashboard otherwise
+  navigate(u.isSuperAdmin && !state.adminViewingTeam ? 'admin' : 'dashboard');
+}
+
+function updateProBadge(){
+  const t = currentTeam();
+  const badge = document.getElementById('pro-badge');
+  const label = document.getElementById('pro-label');
+  const sub = document.getElementById('pro-sub');
+  if (!badge) return;
+  if (!t) { badge.classList.add('hidden'); return; }
+  badge.classList.remove('hidden');
+  if (t.isPro){
+    badge.classList.add('is-pro');
+    label.textContent = '✓ Pro Plan';
+    sub.textContent = t.isOnTrial ? 'Trial ends ' + new Date(t.trialEnds).toLocaleDateString() : 'Unlimited team seats';
+  } else {
+    badge.classList.remove('is-pro');
+    label.textContent = '⚡ Upgrade to Pro';
+    sub.textContent = '$29/month · 14-day free trial';
+  }
+}
+
+// ═════════════════════════════════════════════
+//  NAVIGATION
+// ═════════════════════════════════════════════
+let currentPage = 'dashboard';
+function navigate(target){
+  const pages = ['dashboard','mycommittees','library','adhoc','transitions','templates','xref','build','history','analytics','team','settings','admin'];
+  pages.forEach(p => {
+    const el = document.getElementById('page-'+p);
+    if (el) el.classList.toggle('hidden', p !== target);
+    const nav = document.getElementById('nav-'+p);
+    if (nav) nav.classList.toggle('active', p === target);
+  });
+  currentPage = target;
+  const renderers = {
+    dashboard: renderDashboard, mycommittees: renderMyCommittees, library: renderLibrary,
+    adhoc: renderAdHoc, transitions: renderTransitions, templates: renderTemplates,
+    xref: renderXref, build: renderBuild,
+    history: renderHistory, analytics: renderAnalytics, team: renderTeam,
+    settings: renderSettings, admin: renderAdmin
+  };
+  if (renderers[target]) renderers[target]();
+  const back = document.getElementById('back-to-dash');
+  if (back) back.style.display = (target === 'dashboard' || target === 'admin') ? 'none' : 'flex';
+  window.scrollTo(0,0);
+}
+
+
+
+// ═════════════════════════════════════════════
+//  COMMITTEES DATA
+// ═════════════════════════════════════════════
+const ORG_SIZES = [
+  { id:"small", label:"Small (0–5 staff, under $50K)", desc:"All-volunteer or 1–2 staff. Lean committee structure." },
+  { id:"medium", label:"Medium (6–20 staff, $50K–$250K)", desc:"Add structure. Committees become true working bodies." },
+  { id:"large", label:"Large (21–100 staff, over $250K)", desc:"Specialized committees with dedicated staff liaisons." }
+];
+
+const COMMITTEE_CHARTERS = [
+  {
+    id: "executive-committee",
+    name: "Executive Committee",
+    recommendedFor: "small",
+    purpose: `The Executive Committee acts on behalf of the Board of Directors between regular Board meetings and provides strategic leadership, governance oversight, and coordination across all committees of [Organization Name]. It ensures continuity of leadership and timely decision-making on matters that cannot await the next full Board meeting.`,
+    composition: `[Board President / Chief Elected Officer] — serves as Chair
+[Vice President / Vice Chair]
+[Secretary]
+[Treasurer]
+Immediate Past [President / Chair] (if applicable)
+Additional at-large Board members as specified in the bylaws
+Roles and Responsibilities
+Strategic Leadership
+Provide overall direction and leadership for [Organization Name].
+Develop and recommend strategic initiatives and long-range plans to the Board.
+Monitor progress against the strategic plan and recommend adjustments.
+Ensure alignment between organizational activities and the mission.
+Governance Oversight
+Act on behalf of the Board between meetings on urgent matters, within authority granted by the bylaws.
+Review and recommend governance policies, bylaws amendments, and procedural changes.
+Oversee board development, recruitment, and succession planning.
+Ensure compliance with legal, regulatory, and fiduciary obligations.
+Financial and Operational Oversight
+Review major financial decisions and recommend approval of significant expenditures or contracts exceeding [$X,XXX as specified in bylaws].
+Oversee organizational budgets, financial performance, and resource allocation in coordination with the Finance & Audit Committee.
+Monitor organizational risk management and insurance coverage.
+Review and approve emergency actions as needed.
+Leadership and Personnel
+Oversee the performance and evaluation of the Executive Director or senior staff leader (if applicable).
+Recommend compensation and benefits for senior leadership.
+Coordinate leadership transitions and succession planning.
+Address personnel matters requiring executive-level attention.
+Committee Coordination
+Coordinate activities across all standing committees to ensure alignment.
+Review committee reports and recommendations before Board consideration.
+Resolve conflicts or overlaps between committee responsibilities.
+Ensure effective communication between committees and the Board.`,
+    responsibilities: ``,
+    meetings: `Monthly, or as needed to address urgent matters. Additional meetings may be called by the Chair.`,
+    reporting: ``
+  },
+  {
+    id: "publications-communications-committee",
+    name: "Publications & Communications Committee",
+    recommendedFor: "large",
+    purpose: `The Publications & Communications Committee oversees all publications, communications, and content produced by [Organization Name], including [flagship publication name], newsletters, digital content, social media, and member communications. The Committee ensures editorial excellence, mission alignment, and consistent brand representation across all channels, advancing [Organization Name]'s educational and outreach mission.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Editor(s) of flagship publication(s) (ex-officio)
+Communications Director or lead (if applicable)
+Digital/Web Content lead
+Social Media lead
+2–4 additional members with editorial, communications, or subject-matter expertise
+Roles and Responsibilities
+Editorial Oversight
+Establish and maintain editorial standards for all [Organization Name] publications.
+Oversee content review processes (peer review, editorial review, or fact-checking as appropriate to publication type).
+Ensure content accuracy, quality, and alignment with [Organization Name]'s mission and values.
+Review and approve editorial policies, style guides, and publication schedules.
+Support recruitment and development of contributors, authors, and editorial staff.
+Publication Management
+Oversee production, distribution, and archival of [flagship publication] and other periodicals.
+Coordinate publication of newsletters, journals, magazines, monographs, or special publications.
+Manage relationships with printers, designers, publishers, and production vendors.
+Monitor publication budgets and recommend approval of expenditures exceeding [$X,XXX as specified in bylaws].
+Ensure timely publication and distribution to members and stakeholders.
+Digital Content and Online Presence
+Oversee development and maintenance of digital content, including website articles, blogs, podcasts, and video content.
+Coordinate digital archives and online access to back issues or historical content.
+Ensure digital content meets accessibility standards and best practices.
+Support digital publishing initiatives and emerging content formats.
+Communications and Marketing
+Develop and implement communications strategies to engage members, donors, and the public.
+Oversee social media presence, email campaigns, and member communications.
+Ensure consistent brand identity, messaging, and visual standards across all channels.
+Coordinate press releases, media relations, and external communications.
+Support promotional efforts for events, programs, and fundraising initiatives.
+Rights, Permissions, and Copyright
+Manage copyright, licensing, and reprint permissions for [Organization Name] content.
+Ensure compliance with intellectual property laws and fair use standards.
+Develop contributor agreements and content licensing policies.
+Oversee use of third-party content, images, and materials.
+Evaluation and Improvement
+Monitor reader engagement, publication metrics, and communication effectiveness.
+Conduct periodic reader/member surveys to assess content relevance and quality.
+Recommend improvements to publication content, format, and delivery.
+Stay current with publishing trends, digital platforms, and best practices.`,
+    responsibilities: ``,
+    meetings: `Quarterly at minimum, with additional meetings during publication cycles or for special projects.`,
+    reporting: ``
+  },
+  {
+    id: "membership-outreach-committee",
+    name: "Membership & Outreach Committee",
+    recommendedFor: "medium",
+    purpose: `The Membership & Outreach Committee leads efforts to recruit, retain, and engage members of [Organization Name], and to expand the organization's reach to [target audience / constituents]. The Committee is responsible for membership growth, member services, and outreach to affiliated organizations, partners, and the broader community.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Membership Coordinator or Secretary (ex-officio)
+Outreach/Community Engagement lead
+New Member/Onboarding lead
+3–5 additional members representing diverse member segments or constituencies
+Roles and Responsibilities
+Membership Recruitment
+Develop and implement strategies to grow [Organization Name]'s membership.
+Identify and pursue recruitment opportunities at events, online, and through partner organizations.
+Create and maintain recruitment materials, including brochures, web content, and promotional items.
+Coordinate with [relevant national, regional, or affiliated organizations in your field] for cross-promotion.
+Set annual membership growth targets and track progress.
+Member Retention and Engagement
+Develop programs and initiatives to retain existing members and increase engagement.
+Oversee welcome and onboarding processes for new members.
+Coordinate member recognition programs (milestones, service awards, special contributions).
+Monitor member satisfaction through surveys, feedback, and direct outreach.
+Identify and address reasons for member non-renewal.
+Member Services
+Oversee member benefits, services, and privileges.
+Ensure timely processing of membership applications, renewals, and inquiries.
+Maintain accurate membership records and databases in coordination with the Technology & Digital Services Committee.
+Review membership dues structure and recommend adjustments to the Board.
+Develop member resources, directories, and communication channels.
+Outreach and Community Engagement
+Expand [Organization Name]'s presence and visibility within [mission focus area] and related communities.
+Build and maintain relationships with partner organizations, affiliates, and allied groups.
+Represent [Organization Name] at external events, conferences, and community gatherings.
+Develop outreach initiatives targeting underrepresented or emerging constituencies.
+Coordinate youth, student, or newcomer engagement programs as applicable.
+Diversity, Equity, and Inclusion
+Promote inclusive membership practices and welcoming culture.
+Identify and remove barriers to participation in [Organization Name].
+Support diverse representation across membership, leadership, and programming.
+Recommend policies and initiatives to advance DEI goals.
+Data and Reporting
+Track and report membership metrics (growth, retention, demographics, engagement).
+Analyze trends and recommend strategic responses.
+Coordinate with Finance & Audit Committee on dues revenue and member-related expenses.`,
+    responsibilities: ``,
+    meetings: `Monthly or bi-monthly, with additional meetings for recruitment campaigns or special initiatives.`,
+    reporting: ``
+  },
+  {
+    id: "education-research-committee",
+    name: "Education & Research Committee",
+    recommendedFor: "medium",
+    purpose: `The Education & Research Committee advances [Organization Name]'s educational mission by developing and overseeing programs, courses, research initiatives, and scholarly activities. The Committee supports lifelong learning, knowledge creation, and the dissemination of expertise within [mission focus area] to members, the broader community, and future generations.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Education Program Coordinator or Director (if applicable)
+Research Coordinator or lead scholar (if applicable)
+Youth/Student Programs lead (if applicable)
+3–5 additional members with educational, academic, or subject-matter expertise
+Roles and Responsibilities
+Educational Programming
+Develop and oversee educational programs, courses, workshops, seminars, and webinars.
+Align educational offerings with [Organization Name]'s mission and member needs.
+Recruit and support instructors, presenters, and subject-matter experts.
+Establish curriculum standards, learning objectives, and program evaluation methods.
+Oversee online learning platforms, course materials, and educational resources.
+Research and Scholarship
+Promote research activities within [mission focus area] and related disciplines.
+Support members engaged in independent research or scholarly projects.
+Oversee research grants, scholarships, or fellowship programs (if applicable).
+Coordinate publication of research findings through the Publications & Communications Committee.
+Maintain research archives, libraries, or special collections.
+Youth and Student Engagement
+Develop programs to engage youth, students, and newcomers in [mission focus area].
+Coordinate with schools, universities, and youth organizations on educational partnerships.
+Oversee scholarships, mentorship programs, and youth competitions.
+Create age-appropriate educational materials and resources.
+Continuing Education and Professional Development
+Provide continuing education opportunities for members at all experience levels.
+Develop certification, credentialing, or recognition programs (if applicable).
+Support professional development for practitioners in [mission focus area].
+Track and report educational outcomes and participant achievements.
+Partnerships and Collaboration
+Build partnerships with libraries, museums, universities, archives, and educational institutions.
+Coordinate with [relevant national, regional, or affiliated organizations in your field] on joint educational initiatives.
+Represent [Organization Name] in academic and educational forums.
+Pursue grants and funding for educational programs in coordination with the Development & Fundraising Committee.
+Resources and Knowledge Management
+Maintain and develop educational resources, libraries, and reference materials.
+Oversee digital knowledge repositories and online learning archives.
+Ensure accessibility of educational content to members and the public.
+Preserve institutional knowledge and historical records related to [mission focus area].
+Evaluation and Quality Assurance
+Evaluate educational programs for effectiveness, relevance, and impact.
+Collect participant feedback and outcome data.
+Recommend improvements and new initiatives based on evaluation findings.
+Stay current with educational best practices, learning technologies, and pedagogical trends.`,
+    responsibilities: ``,
+    meetings: `Quarterly, with additional meetings for program development, grant cycles, or special projects.`,
+    reporting: ``
+  },
+  {
+    id: "exhibitions-awards-committee",
+    name: "Exhibitions & Awards Committee",
+    recommendedFor: "large",
+    purpose: `The Exhibitions & Awards Committee oversees [Organization Name]'s exhibitions, competitions, recognition programs, and awards. The Committee celebrates excellence within [mission focus area], encourages member participation, and advances the organization's reputation through showcased achievements and public recognition.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Exhibitions Coordinator or lead
+Awards Coordinator or lead
+Judging Coordinator (if applicable)
+3–5 additional members with exhibition, judging, or recognition program experience
+Roles and Responsibilities
+Exhibitions and Displays
+Plan, organize, and oversee [Organization Name]'s exhibitions, showcases, and public displays.
+Coordinate with event hosts, venues, and partner organizations on exhibition logistics.
+Develop exhibition standards, guidelines, and participation criteria.
+Support members exhibiting at [Organization Name] and external events.
+Oversee display materials, signage, and exhibition infrastructure.
+Awards and Recognition Programs
+Administer [Organization Name]'s awards, honors, and recognition programs.
+Develop award criteria, nomination processes, and selection procedures.
+Coordinate annual awards, service recognition, and special honors.
+Maintain records of past recipients and award history.
+Oversee presentation of awards at events, meetings, or through publications.
+Competitions and Judging
+Organize competitions, contests, and judged events (if applicable).
+Recruit and train qualified judges and evaluators.
+Establish fair, transparent, and consistent judging standards.
+Oversee appeals processes and dispute resolution.
+Coordinate with external judging bodies or accrediting organizations as applicable.
+Member and Volunteer Recognition
+Recognize member contributions, volunteer service, and leadership achievements.
+Develop programs to honor long-serving members, donors, and supporters.
+Coordinate milestone recognition (anniversaries, service years, contributions).
+Promote recognition through publications, events, and communications.
+External Representation and Partnerships
+Represent [Organization Name] at regional, national, and international exhibitions.
+Coordinate with [relevant national, regional, or affiliated organizations in your field] on joint exhibitions and competitions.
+Support member participation in external shows and competitions.
+Build [Organization Name]'s reputation through high-quality exhibitions and awards.
+Budget and Resources
+Manage exhibitions and awards budget.
+Recommend approval of expenditures exceeding [$X,XXX as specified in bylaws].
+Oversee award materials (plaques, medals, certificates, prizes).
+Pursue sponsorships and funding for exhibitions and awards in coordination with the Development & Fundraising Committee.`,
+    responsibilities: ``,
+    meetings: `Quarterly, with increased frequency around exhibitions, competitions, and awards cycles.`,
+    reporting: ``
+  },
+  {
+    id: "technology-digital-services-committee",
+    name: "Technology & Digital Services Committee",
+    recommendedFor: "medium",
+    purpose: `The Technology & Digital Services Committee oversees [Organization Name]'s technology infrastructure, digital services, and online presence. The Committee ensures that technology solutions support organizational operations, member services, and mission delivery while maintaining security, cost-effectiveness, and alignment with best practices.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Webmaster or Technology Lead (ex-officio if contracted)
+Database/Member Management lead
+Cybersecurity/IT Security lead or advisor
+3–5 additional members with technology, IT, or digital services expertise
+Roles and Responsibilities
+Technology Infrastructure
+Oversee [Organization Name]'s technology infrastructure, including servers, cloud services, and hosting arrangements.
+Evaluate and recommend infrastructure solutions (on-premises, cloud, hybrid, serverless) to ensure cost-effectiveness and scalability.
+Monitor system performance, uptime, and reliability.
+Recommend infrastructure investments and upgrades.
+Website and Digital Presence
+Oversee design, maintenance, and ongoing development of [Organization Name]'s website.
+Ensure website functionality, accessibility, and mobile responsiveness.
+Coordinate with Publications & Communications Committee on digital content and user experience.
+Monitor website analytics, traffic, and user engagement.
+Manage domain names, SSL certificates, and web services.
+Member Database and Systems
+Oversee member database, CRM systems, and data management platforms.
+Ensure data integrity, backup, and recovery procedures.
+Support Membership & Outreach Committee with data needs and reporting.
+Evaluate and recommend database or membership management systems.
+Cybersecurity and Data Protection
+Establish and maintain cybersecurity policies and practices.
+Oversee data protection, privacy compliance, and incident response procedures.
+Conduct regular security assessments and vulnerability reviews.
+Ensure compliance with applicable data privacy regulations (GDPR, CCPA, state laws as applicable).
+Maintain backup, disaster recovery, and business continuity plans.
+Vendor and Contract Management
+Oversee technology vendor relationships and service contracts.
+Recommend formal written contracts for all technology contractors, with regular testing protocols, analytics reporting, remediation procedures for downtime or failures, backup and disaster recovery provisions, and succession planning for continuity of services.
+Review vendor performance and ensure adherence to contract terms.
+Recommend approval of technology contracts and expenditures exceeding [$X,XXX as specified in bylaws].
+Establish a clear expense approval process outlining how technology budget items are developed, executed, and paid.
+Digital Tools and Services
+Evaluate and recommend digital tools for communications, collaboration, and operations (email, video conferencing, project management, etc.).
+Support adoption of productivity tools across committees and staff.
+Oversee online event platforms, webinar tools, and virtual meeting infrastructure.
+Coordinate with other committees on technology needs and solutions.
+Emerging Technology and Innovation
+Stay current with emerging technologies relevant to [Organization Name]'s mission and operations.
+Evaluate opportunities for technology-enabled innovation (AI, automation, mobile apps, etc.).
+Recommend pilot projects and technology experiments.
+Support digital transformation initiatives and change management.
+Succession Planning and Documentation
+Maintain documentation of all technology systems, credentials, and procedures.
+Develop succession plans for key technology roles to ensure continuity.
+Conduct knowledge transfer and cross-training among technology personnel.
+Ensure the Board has appropriate access and visibility into technology operations.`,
+    responsibilities: ``,
+    meetings: `Quarterly at minimum, with additional meetings for major technology decisions, incidents, or projects.`,
+    reporting: ``
+  },
+  {
+    id: "finance-audit-committee",
+    name: "Finance & Audit Committee",
+    recommendedFor: "small",
+    purpose: `The Finance & Audit Committee supports the Board of Directors in fulfilling its fiduciary responsibilities for [Organization Name]'s financial stewardship, budgeting, reporting, internal controls, audit, and compliance with applicable federal, state, and local requirements. The Committee ensures the financial integrity and long-term sustainability of the organization.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer] (often the Treasurer)
+Treasurer (ex-officio if not Chair)
+Minimum 3, maximum 7 members
+At least one member with financial or accounting expertise
+Members should collectively bring expertise in accounting, finance, investments, nonprofit management, or audit
+Roles and Responsibilities
+Budgeting and Financial Planning
+Develop and recommend the annual operating budget to the Board of Directors.
+Align budget priorities with [Organization Name]'s strategic plan and programmatic goals.
+Review and recommend multi-year financial forecasts and capital plans.
+Monitor budget-to-actual performance and recommend adjustments as needed.
+Financial Reporting and Oversight
+Review monthly, quarterly, and annual financial statements prior to Board distribution.
+Ensure timely and accurate financial reporting consistent with Generally Accepted Accounting Principles (GAAP).
+Present financial summaries and key performance indicators to the Board at each regular meeting.
+Flag material variances, risks, or irregularities to the Board promptly.
+Internal Controls and Policies
+Review and recommend financial policies, including expense approval, reimbursement, purchasing, and signing authority.
+Ensure segregation of duties appropriate to the organization's size and staffing.
+Review conflict-of-interest disclosures and whistleblower procedures annually.
+Oversee document retention and destruction policies.
+Major Expenditures and Contracts
+Review and recommend approval of any single expenditure or contract exceeding [$X,XXX as specified in bylaws].
+Ensure competitive bidding or documented sole-source justification for significant contracts.
+Monitor performance of vendors and contractors against contract terms and budget.
+Recommend formal written contracts for all material vendor and contractor relationships.
+Audit and Compliance
+Recommend selection of the independent auditor or financial reviewer.
+Review the annual audit, management letter, and Form 990 (or equivalent regulatory filing) prior to submission.
+Ensure compliance with applicable federal, state, and local filing and reporting requirements.
+Monitor charitable solicitation registrations in all jurisdictions where the organization operates.
+Investment and Reserve Management
+Recommend investment policies, reserve targets, and asset allocation guidelines.
+Monitor investment performance and adherence to the Investment Policy Statement.
+Review liquidity, operating reserves, and endowment (if applicable) at least annually.
+Risk Management
+Identify and assess financial, operational, cybersecurity, and reputational risks.
+Review insurance coverage annually, including D&O, general liability, cyber, and property as applicable.
+Recommend business continuity, disaster recovery, and succession planning practices.`,
+    responsibilities: ``,
+    meetings: `Quarterly at minimum, with additional meetings during audit and budget cycles. Monthly meetings recommended for organizations with staff or complex operations.`,
+    reporting: ``
+  },
+  {
+    id: "development-fundraising-committee",
+    name: "Development & Fundraising Committee",
+    recommendedFor: "small",
+    purpose: `The Development & Fundraising Committee leads [Organization Name]'s efforts to secure philanthropic support, grants, sponsorships, and strategic partnerships that advance the mission. The Committee develops and implements fundraising strategies, cultivates donor relationships, and ensures sustainable resource development for organizational priorities.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Development Director or lead (ex-officio if applicable)
+Grants Coordinator or lead
+Donor Relations/Stewardship lead
+3–5 additional members with fundraising, philanthropy, or partnership experience
+Roles and Responsibilities
+Fundraising Strategy
+Develop and recommend [Organization Name]'s annual and multi-year fundraising plan.
+Set fundraising goals aligned with organizational budget and strategic priorities.
+Identify and pursue diverse revenue streams (individual giving, grants, sponsorships, major gifts, planned giving, events).
+Monitor fundraising performance and recommend strategic adjustments.
+Donor Cultivation and Stewardship
+Develop donor identification, cultivation, solicitation, and stewardship strategies.
+Build and maintain relationships with major donors, prospects, and supporters.
+Oversee donor recognition programs and acknowledgment practices.
+Ensure timely and appropriate thank-you communications and reporting to donors.
+Maintain donor records and cultivation tracking in coordination with the Technology & Digital Services Committee.
+Grants and Institutional Giving
+Identify and pursue grant opportunities from foundations, government agencies, and institutional funders.
+Oversee grant writing, submission, and reporting processes.
+Build relationships with grantmakers and program officers.
+Ensure compliance with grant terms, reporting requirements, and restrictions.
+Corporate Sponsorships and Partnerships
+Develop and manage corporate sponsorship programs.
+Build strategic partnerships with businesses, corporations, and institutional partners.
+Coordinate sponsor benefits, recognition, and relationship management.
+Ensure alignment of sponsorships with [Organization Name]'s mission and values.
+Fundraising Events and Campaigns
+Plan and oversee fundraising events, campaigns, and appeals (annual fund, capital campaigns, special initiatives).
+Coordinate with the Events & Meetings Committee on fundraising event logistics.
+Develop campaign messaging and materials in coordination with Publications & Communications.
+Monitor campaign performance and ROI.
+Planned Giving and Endowment
+Develop and promote planned giving programs (bequests, charitable trusts, beneficiary designations).
+Support endowment-building initiatives and restricted gift campaigns.
+Cultivate legacy donors and recognize planned giving commitments.
+Policies and Compliance
+Recommend gift acceptance policies, donor privacy policies, and fundraising ethics standards.
+Ensure compliance with charitable solicitation registrations and reporting requirements.
+Adhere to Association of Fundraising Professionals (AFP) Code of Ethics or equivalent standards.
+Coordinate with Finance & Audit Committee on gift processing, accounting, and restricted fund management.`,
+    responsibilities: ``,
+    meetings: `Monthly or bi-monthly, with increased frequency during active campaigns or grant cycles.`,
+    reporting: `Evaluate effectiveness of fundraising strategies and tactics.
+Benchmark performance against peer organizations and sector standards.`
+  },
+  {
+    id: "events-meetings-committee",
+    name: "Events & Meetings Committee",
+    recommendedFor: "medium",
+    purpose: `The Events & Meetings Committee plans, organizes, and oversees [Organization Name]'s events, conferences, meetings, and gatherings. The Committee ensures that events advance the mission, engage members and constituents, and are delivered with excellence in logistics, programming, and participant experience.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+Annual Meeting/Conference Coordinator
+Regional/Local Events lead
+Virtual/Hybrid Events lead
+3–5 additional members with events planning, hospitality, or programming experience
+Roles and Responsibilities
+Event Planning and Strategy
+Develop and recommend [Organization Name]'s annual calendar of events and meetings.
+Align events with organizational mission, strategic priorities, and member interests.
+Establish event goals, attendance targets, and success metrics.
+Coordinate with all committees on programming needs and integration.
+Annual Meeting and Conferences
+Plan and execute the annual meeting, conference, or convention.
+Coordinate venue selection, contracts, and logistics.
+Develop program content, speakers, and session schedules.
+Manage registration, attendee services, and on-site operations.
+Ensure compliance with bylaws requirements for annual meetings and member business.
+Regional and Local Events
+Support regional meetings, chapter events, and local gatherings.
+Coordinate with chapters, affiliates, or regional groups on event planning.
+Develop event toolkits and resources to support distributed events.
+Ensure consistency of branding and quality across events.
+Virtual and Hybrid Events
+Plan and execute virtual meetings, webinars, and hybrid events.
+Coordinate with Technology & Digital Services Committee on platforms and production.
+Design engaging virtual experiences and accessible participation.
+Ensure technical reliability and participant support.
+Programming and Speakers
+Develop event programming in coordination with Education & Research, Exhibitions & Awards, and other committees.
+Recruit speakers, presenters, panelists, and honored guests.
+Coordinate session logistics, A/V needs, and speaker support.
+Evaluate program quality and participant feedback.
+Logistics and Vendor Management
+Negotiate and manage contracts with venues, caterers, A/V providers, and event vendors.
+Recommend approval of event contracts and expenditures exceeding [$X,XXX as specified in bylaws].
+Oversee event budgets and financial performance.
+Ensure insurance, permits, and risk management for events.
+Marketing and Registration
+Coordinate event marketing and promotion with the Publications & Communications Committee.
+Oversee registration systems, pricing, and attendee communications.
+Track attendance, demographics, and engagement metrics.
+Support sponsorship integration in coordination with Development & Fundraising Committee.
+Post-Event Evaluation
+Conduct post-event evaluations with attendees, speakers, and volunteers.
+Analyze financial performance, attendance, and satisfaction metrics.
+Document lessons learned and recommendations for future events.`,
+    responsibilities: ``,
+    meetings: `Monthly during active event planning cycles; quarterly at minimum.`,
+    reporting: ``
+  },
+  {
+    id: "strategic-planning-committee",
+    name: "Strategic Planning Committee",
+    recommendedFor: "medium",
+    purpose: `The Strategic Planning Committee leads [Organization Name]'s long-range planning efforts, ensuring the organization has a clear, mission-aligned strategic direction and the capacity to achieve its goals. The Committee facilitates periodic strategic planning processes, monitors implementation, and supports adaptive leadership in a changing environment.`,
+    composition: `Chair: Appointed by the [Board President / Chief Elected Officer]
+[Board President / Chief Elected Officer] (ex-officio)
+Executive Director or senior staff leader (ex-officio, if applicable)
+Representatives from key committees (Finance & Audit, Development & Fundraising, Membership & Outreach)
+3–5 additional members with strategic planning, organizational development, or sector expertise
+May include external advisors or consultants as needed
+Roles and Responsibilities
+Strategic Planning Process
+Lead the development of [Organization Name]'s strategic plan (typically 3–5 year horizon).
+Facilitate board and stakeholder engagement in the planning process.
+Conduct environmental scanning, SWOT analysis, and strategic assessment.
+Recommend strategic plan adoption to the Board of Directors.
+Update the strategic plan periodically to reflect changing conditions and priorities.
+Mission, Vision, and Values
+Periodically review [Organization Name]'s mission, vision, and values statements.
+Recommend updates or refinements to ensure continued relevance.
+Ensure organizational activities and decisions align with mission and values.
+Support clear articulation of organizational identity and purpose.
+Goal Setting and Priorities
+Develop strategic goals, objectives, and priorities with Board and stakeholder input.
+Define measurable outcomes and key performance indicators.
+Align annual plans, budgets, and committee activities with strategic priorities.
+Recommend resource allocation to support strategic initiatives.
+Implementation Oversight
+Monitor progress on strategic plan implementation.
+Review quarterly or annual progress reports with the Board.
+Identify barriers to implementation and recommend corrective actions.
+Coordinate with committees and staff on strategic initiative execution.
+Environmental Scanning and Research
+Monitor trends, opportunities, and threats affecting [Organization Name] and [mission focus area].
+Research peer organizations, best practices, and sector developments.
+Evaluate emerging issues, technologies, and constituent needs.
+Recommend strategic responses to environmental changes.
+Organizational Development and Capacity
+Assess organizational capacity and readiness to achieve strategic goals.
+Recommend investments in leadership development, staffing, systems, and infrastructure.
+Support board development, governance improvements, and succession planning.
+Coordinate with Finance & Audit Committee on multi-year financial planning aligned with strategy.
+Stakeholder Engagement
+Engage members, donors, partners, and constituents in strategic planning.
+Gather stakeholder input through surveys, focus groups, and interviews.
+Communicate strategic direction and progress to stakeholders.
+Build consensus and shared ownership of strategic priorities.
+Evaluation and Learning
+Evaluate the effectiveness of strategic initiatives and overall plan.
+Capture lessons learned and apply to future planning cycles.
+Benchmark [Organization Name]'s performance against peer organizations.
+Recommend continuous improvement in planning processes and organizational effectiveness.`,
+    responsibilities: ``,
+    meetings: `Quarterly: Typical for small-to-mid-size nonprofits and lower-activity committees.
+Monthly: Recommended for Executive, Finance & Audit, Development & Fundraising, and Membership & Outreach Committees in active organizations.
+Ad hoc: Supplement regular schedule during audit, budget season, events, or major initiatives.
+Financial Thresholds
+The [$X,XXX as specified in bylaws] threshold for major expenditures should reflect your annual budget. Common ranges: $1,000–$2,500 for small orgs; $5,000–$10,000 for mid-size; $25,000+ for large organizations. Always align with your bylaws.
+Appendix B: Optional Committees and Additions by Organization Type
+Membership Associations and Societies
+Chapter/Affiliate Relations Committee — coordinates with local or regional chapters
+Nominating Committee — manages board and officer elections
+Bylaws Committee — reviews and recommends bylaws amendments
+Private Foundations and Grantmaking Organizations
+Grantmaking/Program Committee — reviews grant applications and oversees giving
+Investment Committee — manages endowment and investment portfolio
+Program Evaluation Committee — assesses grantee outcomes and impact
+Religious and Faith-Based Organizations
+Pastoral/Spiritual Care Committee
+Building & Grounds Committee — maintains physical facilities
+Missions/Outreach Committee — oversees mission work and charitable programs
+Educational Institutions and Scholarship Organizations
+Academic Affairs Committee — oversees curriculum and educational standards
+Scholarship Committee — manages scholarship programs and selection
+Student Affairs Committee (if applicable)
+Arts, Cultural, and Historical Organizations
+Collections/Curatorial Committee — oversees collections and acquisitions
+Programming/Artistic Committee — curates artistic and cultural programming
+Preservation Committee — oversees conservation and preservation efforts
+Human Services and Healthcare Nonprofits
+Program/Clinical Services Committee — oversees service delivery and quality
+Advocacy Committee — coordinates policy and advocacy efforts
+Client/Patient Services Committee — ensures client-centered practices
+Advocacy and Civic Organizations (501(c)(4), (c)(6))
+Policy/Advocacy Committee — develops policy positions and advocacy strategy
+Political Action Committee (PAC) — manages political activities (separate legal entity)
+Government Relations Committee — manages relationships with elected officials and agencies
+All Organizations — Additional Committees to Consider
+Nominating/Governance Committee — board recruitment, orientation, and evaluation
+Bylaws Committee — periodic review and amendment of governing documents
+Diversity, Equity, and Inclusion (DEI) Committee — advances inclusive practices across the organization
+Human Resources Committee — oversees personnel policies and senior staff matters (for staffed organizations)
+Ad Hoc Committees — task forces for specific, time-limited initiatives
+Build Your Club  •  Governance Template Library  •  For customization support, contact your Build Your Club advisor.`,
+    reporting: `Adoption
+Adopted by the Board of Directors of [Organization Name] on [Date].
+_______________________________________
+[Board President / Chief Elected Officer]
+_______________________________________
+[Board Secretary]
+These committee charters shall be reviewed at least every [two] years and amended as needed with the approval of the Board of Directors. All amendments shall be documented in the Board's official records.
+Appendix A: Customization Notes
+Use the guidance below to adapt these committee charters to your organization's specific context, size, and mission area.
+General Placeholders to Replace
+[Organization Name] — Legal name of your nonprofit.
+[insert mission statement or primary purpose] — Your adopted mission statement.
+[Board President / Chief Elected Officer] — Title used in your bylaws.
+[$X,XXX as specified in bylaws] — Financial threshold for major expenditures.
+[relevant national, regional, or affiliated organizations in your field] — Sector partners and accrediting bodies.
+[mission focus area] — Your field of work (e.g., education, arts, conservation, health).
+[target audience / constituents] — Populations you serve or engage.
+[flagship publication name] — Name of your primary publication (if applicable).
+[Date] — Date of Board adoption.
+Sizing Committees
+All-volunteer or small organizations (< $250K budget): 3 members per committee; combine related functions as noted.
+Mid-size organizations ($250K–$2M): 4–5 members per committee; most standing committees operate independently.
+Large organizations (> $2M): 5–7 members per committee; consider subcommittees for specialized functions.
+Combining Committees (Small Organizations)
+Small or all-volunteer organizations may combine related committees to reduce governance overhead. Common combinations include:
+Membership & Outreach + Development & Fundraising → 'Membership & Development Committee'
+Events & Meetings + Exhibitions & Awards → 'Programs & Events Committee'
+Publications & Communications + Technology & Digital Services → 'Communications & Technology Committee'
+Strategic Planning may operate as an ad hoc committee activated every 3–5 years.
+Expanding Committees (Large Organizations)
+Larger organizations with staff and complex operations may establish subcommittees under standing committees. Common expansions:
+Finance & Audit → separate Audit Committee composed of independent directors
+Development & Fundraising → Major Gifts, Grants, Corporate Relations, Planned Giving subcommittees
+Publications & Communications → Editorial, Digital Content, Marketing subcommittees
+Technology & Digital Services → Infrastructure, Cybersecurity, Digital Services subcommittees`
+  },
+];
+
+const TEMPLATE_DIR = [
+  { id:"1.1", name:"Annual Budget Template", bundle:"1", desc:"Full operating budget covering all revenue/expense categories with assumptions and approval signatures." },
+  { id:"1.2", name:"Monthly/Quarterly Financial Report", bundle:"1", desc:"Standard Board financial report with balance sheet, activity statement, and KPIs." },
+  { id:"1.3", name:"Budget-to-Actual Variance Report", bundle:"1", desc:"Line-item variance analysis with threshold-based explanations and corrective actions." },
+  { id:"1.4", name:"Chart of Accounts (Nonprofit-Standard)", bundle:"1", desc:"GAAP-aligned account structure with functional expense classification." },
+  { id:"1.5", name:"Expense Reimbursement Form", bundle:"1", desc:"Standard form for requesting reimbursement of authorized organizational expenses." },
+  { id:"1.6", name:"Check Request / Payment Authorization", bundle:"1", desc:"Vendor payment authorization with approval tiers based on dollar amount." },
+  { id:"1.7", name:"Internal Controls Checklist", bundle:"1", desc:"Annual self-assessment covering segregation of duties, cash management, disbursements." },
+  { id:"1.8", name:"Conflict of Interest Disclosure Form", bundle:"1", desc:"Annual disclosure form for Board, officers, and key staff with ongoing duty language." },
+  { id:"1.9", name:"Whistleblower Policy", bundle:"1", desc:"Policy protecting good-faith reporters of fraud, misconduct, or violations." },
+  { id:"1.10", name:"Document Retention Policy", bundle:"1", desc:"Retention schedule for all record categories with litigation hold and destruction procedures." },
+  { id:"1.11", name:"Investment Policy Statement (IPS)", bundle:"1", desc:"Asset allocation guidelines, reserve targets, and performance monitoring framework." },
+  { id:"1.12", name:"Gift Acceptance Policy", bundle:"1", desc:"Governs acceptance, valuation, and stewardship of charitable gifts including restricted gifts." },
+  { id:"1.13", name:"Annual Audit Preparation Checklist", bundle:"1", desc:"Pre-audit planning through post-audit follow-up with documentation requirements." },
+  { id:"1.14", name:"Form 990 Review Checklist", bundle:"1", desc:"Board review checklist covering all sections and schedules prior to IRS filing." },
+  { id:"1.15", name:"Financial Risk Assessment", bundle:"1", desc:"Annual risk matrix covering 19 categories with mitigation tracking." },
+  { id:"2.1", name:"Executive Committee Charter", bundle:"2", desc:"Formal charter defining authority, composition, and responsibilities." },
+  { id:"2.2", name:"Board Meeting Agenda Template", bundle:"2", desc:"Standard agenda format with consent agenda and action items." },
+  { id:"2.3", name:"Board Meeting Minutes Template", bundle:"2", desc:"Official minutes format capturing actions, votes, and attendance." },
+  { id:"2.4", name:"Executive Session Minutes Template", bundle:"2", desc:"Confidential session format for sensitive personnel or legal matters." },
+  { id:"2.5", name:"Annual Board Calendar Template", bundle:"2", desc:"Year-at-a-glance planning tool for Board and committee activities." },
+  { id:"2.6", name:"Board Resolution Template", bundle:"2", desc:"Formal resolution format for Board actions and authorizations." },
+  { id:"2.7", name:"Executive Director Performance Evaluation", bundle:"2", desc:"Annual evaluation framework for senior staff leader (if applicable)." },
+  { id:"2.8", name:"Board President's Annual Report", bundle:"2", desc:"Year-end leadership report template highlighting accomplishments and priorities." },
+  { id:"2.9", name:"Emergency Action Authorization Form", bundle:"2", desc:"Documents between-meeting decisions for ratification at next Board meeting." },
+  { id:"2.10", name:"Board Succession Planning Worksheet", bundle:"2", desc:"Identifies leadership pipeline and transition readiness." },
+  { id:"3.1", name:"Technology Vendor Contract Template", bundle:"3", desc:"Includes testing protocols, analytics, remediation, DR, and succession language." },
+  { id:"3.2", name:"Technology Expense Approval Form", bundle:"3", desc:"Budget approval workflow for technology purchases and services." },
+  { id:"3.3", name:"IT Infrastructure Assessment", bundle:"3", desc:"Evaluation tool for current vs. proposed configurations (on-prem, cloud, hybrid)." },
+  { id:"3.4", name:"Cybersecurity Policy", bundle:"3", desc:"Organizational cybersecurity standards and practices." },
+  { id:"3.5", name:"Data Privacy Policy", bundle:"3", desc:"GDPR/CCPA-aligned data collection, use, and subject rights framework." },
+  { id:"3.6", name:"Incident Response Plan", bundle:"3", desc:"Step-by-step response to security incidents, breaches, and outages." },
+  { id:"3.7", name:"Backup & Disaster Recovery Plan", bundle:"3", desc:"RPO/RTO targets, backup schedules, and recovery procedures." },
+  { id:"3.8", name:"Technology Succession Plan", bundle:"3", desc:"Credentials, documentation, and handoff procedures for technology roles." },
+  { id:"3.9", name:"Website Accessibility Audit Checklist", bundle:"3", desc:"WCAG-aligned accessibility review for organizational websites." },
+  { id:"3.10", name:"Acceptable Use Policy", bundle:"3", desc:"Governs use of organizational technology, email, and systems." },
+  { id:"3.11", name:"Technology Budget Worksheet", bundle:"3", desc:"Current vs. proposed configuration cost comparison." },
+  { id:"3.12", name:"Vendor Performance Review", bundle:"3", desc:"Annual review of technology vendors against contract terms." },
+  { id:"4.1", name:"Annual Fundraising Plan", bundle:"4", desc:"Strategic plan with revenue targets, tactics, and timeline." },
+  { id:"4.2", name:"Case for Support", bundle:"4", desc:"The 'why give' document articulating mission impact and funding priorities." },
+  { id:"4.3", name:"Donor Prospect Research Profile", bundle:"4", desc:"Individual donor profile with capacity, connection, and inclination analysis." },
+  { id:"4.4", name:"Major Gift Cultivation Plan", bundle:"4", desc:"Step-by-step cultivation strategy for individual major donors." },
+  { id:"4.5", name:"Donor Stewardship Plan", bundle:"4", desc:"Retention and recognition framework for ongoing donor engagement." },
+  { id:"4.6", name:"Gift Acknowledgment Letter Templates", bundle:"4", desc:"IRS-compliant acknowledgment letters tiered by gift size." },
+  { id:"4.7", name:"Pledge Agreement", bundle:"4", desc:"Formal pledge documentation with payment schedule and terms." },
+  { id:"4.8", name:"Grant Application Tracking Log", bundle:"4", desc:"Pipeline tracker for foundation and government grant applications." },
+  { id:"4.9", name:"Grant Report Template", bundle:"4", desc:"Standard reporting format for funded grants (narrative and financial)." },
+  { id:"4.10", name:"Corporate Sponsorship Proposal", bundle:"4", desc:"Sponsor-facing proposal with benefits, levels, and recognition." },
+  { id:"4.11", name:"Sponsorship Benefits Tier Template", bundle:"4", desc:"Structured sponsor recognition tiers and deliverables." },
+  { id:"4.12", name:"Planned Giving Brochure / Bequest Language", bundle:"4", desc:"Donor-facing materials including bequest and beneficiary language." },
+  { id:"4.13", name:"Annual Appeal Letter Templates", bundle:"4", desc:"Year-end, spring, and capital campaign appeal templates." },
+  { id:"4.14", name:"Campaign Dashboard / Reporting", bundle:"4", desc:"Real-time campaign tracking for Board and staff." },
+  { id:"4.15", name:"Donor Recognition Program", bundle:"4", desc:"Giving society tiers, listing standards, and stewardship touchpoints." },
+  { id:"5.1", name:"Editorial Calendar", bundle:"5", desc:"Year-long content planning across publications and channels." },
+  { id:"5.2", name:"Style Guide", bundle:"5", desc:"Writing, brand, and visual standards for all organizational content." },
+  { id:"5.3", name:"Contributor / Author Agreement", bundle:"5", desc:"Rights, compensation, and deliverables for content creators." },
+  { id:"5.4", name:"Content Submission Guidelines", bundle:"5", desc:"Submission standards for authors and contributors." },
+  { id:"5.5", name:"Peer Review / Editorial Review Form", bundle:"5", desc:"Structured review for scholarly or editorial content." },
+  { id:"5.6", name:"Copyright & Permissions Request Form", bundle:"5", desc:"Rights clearance for third-party content use." },
+  { id:"5.7", name:"Social Media Policy", bundle:"5", desc:"Governance of organizational social media presence and representative use." },
+  { id:"5.8", name:"Press Release Template", bundle:"5", desc:"Media-ready press release format with standard elements." },
+  { id:"5.9", name:"Media Contact List", bundle:"5", desc:"Journalist and outlet database for press outreach." },
+  { id:"5.10", name:"Publication Production Schedule", bundle:"5", desc:"Production workflow from content intake to distribution." },
+  { id:"5.11", name:"Reader / Member Survey", bundle:"5", desc:"Feedback instrument for publication relevance and quality." },
+  { id:"5.12", name:"Communications Crisis Plan", bundle:"5", desc:"Crisis response framework for reputational or operational incidents." },
+  { id:"6.1", name:"Membership Application", bundle:"6", desc:"Standard application for new members with tier selection." },
+  { id:"6.2", name:"Membership Renewal Notice", bundle:"6", desc:"Renewal communication with incentives and lapse prevention." },
+  { id:"6.3", name:"New Member Welcome Packet", bundle:"6", desc:"Onboarding materials for new members including benefits and engagement options." },
+  { id:"6.4", name:"Member Onboarding Checklist", bundle:"6", desc:"Step-by-step onboarding timeline (first 90 days)." },
+  { id:"6.5", name:"Membership Recruitment Plan", bundle:"6", desc:"Annual strategy with channels, targets, and tactics." },
+  { id:"6.6", name:"Member Satisfaction Survey", bundle:"6", desc:"Engagement and satisfaction measurement tool." },
+  { id:"6.7", name:"Member Exit / Non-Renewal Survey", bundle:"6", desc:"Lapse research to identify retention improvements." },
+  { id:"6.8", name:"Member Recognition & Milestone Program", bundle:"6", desc:"Service anniversary and milestone recognition framework." },
+  { id:"6.9", name:"Membership Dues Structure Worksheet", bundle:"6", desc:"Dues analysis, benchmarking, and pricing decisions." },
+  { id:"6.10", name:"Outreach Event Report", bundle:"6", desc:"Post-event report capturing outreach impact and leads." },
+  { id:"6.11", name:"Partner Organization Agreement", bundle:"6", desc:"MOU format for cross-promotion and collaboration." },
+  { id:"6.12", name:"DEI Assessment & Action Plan", bundle:"6", desc:"Diversity, equity, and inclusion baseline and improvement plan." },
+  { id:"7.1", name:"Program Proposal", bundle:"7", desc:"New course/workshop proposal with objectives, audience, and budget." },
+  { id:"7.2", name:"Course Syllabus", bundle:"7", desc:"Structured syllabus with learning objectives, schedule, and assessments." },
+  { id:"7.3", name:"Learning Objectives Worksheet", bundle:"7", desc:"Bloom's Taxonomy-aligned objective-setting tool." },
+  { id:"7.4", name:"Instructor / Presenter Agreement", bundle:"7", desc:"Terms and compensation for educational delivery." },
+  { id:"7.5", name:"Program Evaluation Form", bundle:"7", desc:"Post-program participant feedback and learning assessment." },
+  { id:"7.6", name:"Research Grant Application", bundle:"7", desc:"Application for member/external research grants." },
+  { id:"7.7", name:"Scholarship Application", bundle:"7", desc:"Student or member scholarship application with essays and references." },
+  { id:"7.8", name:"Scholarship Selection Rubric", bundle:"7", desc:"Scoring framework for scholarship selection committee." },
+  { id:"7.9", name:"Youth / Student Program Parental Consent", bundle:"7", desc:"Required consent for minor participants." },
+  { id:"7.10", name:"Academic Partnership Agreement", bundle:"7", desc:"University, museum, or library partnership framework." },
+  { id:"7.11", name:"Continuing Education Tracking Form", bundle:"7", desc:"Participant CEU/credit tracking for certification programs." },
+  { id:"7.12", name:"Annual Education Program Report", bundle:"7", desc:"Year-end report on educational offerings, participation, and outcomes." },
+  { id:"8.1", name:"Exhibition Proposal", bundle:"8", desc:"Structured proposal for new exhibitions with scope, budget, and approvals." },
+  { id:"8.2", name:"Exhibition Participation Agreement", bundle:"8", desc:"Exhibitor terms including rights, insurance, and responsibilities." },
+  { id:"8.3", name:"Award Nomination Form", bundle:"8", desc:"Standard nomination format with supporting documentation requirements." },
+  { id:"8.4", name:"Award Selection Rubric / Scoring Sheet", bundle:"8", desc:"25-point rubric across 5 criteria for fair evaluation." },
+  { id:"8.5", name:"Judging Guidelines & Standards", bundle:"8", desc:"Principles, criteria, medal levels, and COI handling for competitions." },
+  { id:"8.6", name:"Judge Recruitment & Agreement", bundle:"8", desc:"Judge qualifications, responsibilities, and compensation." },
+  { id:"8.7", name:"Awards Program Script", bundle:"8", desc:"Presentation ceremony script template with timing and structure." },
+  { id:"8.8", name:"Certificate / Award Recognition Templates", bundle:"8", desc:"Formal award, service, lifetime, memorial recognition language." },
+  { id:"8.9", name:"Competition Rules & Entry Form", bundle:"8", desc:"Full rules package with eligibility, categories, entry form." },
+  { id:"8.10", name:"Appeals Process Form", bundle:"8", desc:"Formal appeals procedure for judging or selection decisions." },
+  { id:"8.11", name:"Past Recipients Registry", bundle:"8", desc:"Institutional memory document tracking all award recipients." },
+  { id:"8.12", name:"Exhibition Budget & Logistics Checklist", bundle:"8", desc:"Detailed budget and multi-phase logistics tracking." },
+  { id:"9.1", name:"Event Planning Master Checklist", bundle:"9", desc:"7-phase checklist from concept to close-out." },
+  { id:"9.2", name:"Event Budget Template", bundle:"9", desc:"Detailed budget with revenue/expense categories and break-even analysis." },
+  { id:"9.3", name:"Venue Contract Review Checklist", bundle:"9", desc:"Due diligence on cancellation, insurance, F&B, accessibility, legal." },
+  { id:"9.4", name:"Event Timeline / Run-of-Show", bundle:"9", desc:"Minute-by-minute production schedule for event execution." },
+  { id:"9.5", name:"Speaker Agreement", bundle:"9", desc:"Speaker terms, recording rights, compensation, and cancellation." },
+  { id:"9.6", name:"Call for Proposals (Program)", bundle:"9", desc:"Public call for session proposals with criteria and timeline." },
+  { id:"9.7", name:"Registration Form Template", bundle:"9", desc:"Registration form with tiers, add-ons, accommodations, and consent." },
+  { id:"9.8", name:"Attendee Confirmation & Logistics Emails", bundle:"9", desc:"5 ready-to-send email templates across event lifecycle." },
+  { id:"9.9", name:"Volunteer Role Descriptions & Sign-Up", bundle:"9", desc:"Volunteer recruitment with roles, benefits, and sign-up form." },
+  { id:"9.10", name:"Event Risk & Safety Plan", bundle:"9", desc:"Risk matrix, emergency procedures, code of conduct, insurance." },
+  { id:"9.11", name:"Virtual/Hybrid Event Production Checklist", bundle:"9", desc:"Platform, team roles, tech setup, accessibility." },
+  { id:"9.12", name:"Post-Event Evaluation Survey", bundle:"9", desc:"Attendee feedback tool covering program, logistics, value." },
+  { id:"9.13", name:"Event Financial Reconciliation", bundle:"9", desc:"Post-event close-out and variance analysis." },
+  { id:"9.14", name:"Annual Meeting Notice (Bylaws-Compliant)", bundle:"9", desc:"Formal notice meeting state statutory and bylaws requirements." },
+  { id:"10.1", name:"Strategic Plan Document (3\u20135 Year)", bundle:"10", desc:"Full strategic plan template with all standard sections." },
+  { id:"10.2", name:"SWOT Analysis Worksheet", bundle:"10", desc:"Strengths/Weaknesses/Opportunities/Threats with TOWS Matrix." },
+  { id:"10.3", name:"Environmental Scan / PEST Analysis", bundle:"10", desc:"Political, Economic, Social, Technological external scanning." },
+  { id:"10.4", name:"Stakeholder Engagement Plan", bundle:"10", desc:"Identification, methods, timeline, and communication." },
+  { id:"10.5", name:"Stakeholder Survey", bundle:"10", desc:"Survey instrument for planning input from members and stakeholders." },
+  { id:"10.6", name:"Mission, Vision, Values Review", bundle:"10", desc:"Structured review of foundational statements." },
+  { id:"10.7", name:"Strategic Goals & KPI Tracking", bundle:"10", desc:"SMART goals with multi-year KPI targets." },
+  { id:"10.8", name:"Implementation Roadmap / Gantt Chart", bundle:"10", desc:"Multi-year initiative timeline with ownership and status." },
+  { id:"10.9", name:"Quarterly Strategic Plan Progress Report", bundle:"10", desc:"Standardized Board reporting template." },
+  { id:"10.10", name:"Board Retreat Agenda & Facilitation Guide", bundle:"10", desc:"1-day and 2-day retreat structures with facilitation techniques." },
+  { id:"10.11", name:"Peer Benchmarking Worksheet", bundle:"10", desc:"Comparison to peer organizations on key dimensions." },
+  { id:"10.12", name:"Annual Strategic Plan Review Checklist", bundle:"10", desc:"Year-end plan assessment and adjustment process." },
+];
+
+const TEMPLATE_BUNDLES = [
+  { id:"1", name:"Finance & Audit Committee", count:15 },
+  { id:"2", name:"Executive Committee", count:10 },
+  { id:"3", name:"Technology & Digital Services", count:12 },
+  { id:"4", name:"Development & Fundraising", count:15 },
+  { id:"5", name:"Publications & Communications", count:12 },
+  { id:"6", name:"Membership & Outreach", count:12 },
+  { id:"7", name:"Education & Research", count:12 },
+  { id:"8", name:"Exhibitions & Awards", count:12 },
+  { id:"9", name:"Events & Meetings", count:14 },
+  { id:"10", name:"Strategic Planning", count:12 }
+];
+
+const XREF_ENTRIES = [
+  { template:"1.8 Conflict of Interest Disclosure", owner:"Finance & Audit", also:"Executive, Exhibitions & Awards (judges), Development (Board giving), all committees", why:"All committee members must disclose; judges and nominators also disclose." },
+  { template:"1.9 Whistleblower Policy", owner:"Finance & Audit", also:"All committees, all members, volunteers", why:"Protects good-faith reporters from any part of the organization." },
+  { template:"1.10 Document Retention Policy", owner:"Finance & Audit", also:"All committees (records retention)", why:"Governs retention for minutes, event records, publications, donor data, etc." },
+  { template:"1.12 Gift Acceptance Policy", owner:"Finance & Audit", also:"Development & Fundraising (primary daily user)", why:"Sets gift rules; Development follows them when soliciting and accepting gifts." },
+  { template:"2.2 Board Meeting Agenda", owner:"Executive", also:"All committees (as reporting parties)", why:"All committees present reports at each Board meeting." },
+  { template:"2.3 Board Meeting Minutes", owner:"Executive", also:"All committees (recorded actions)", why:"Committee recommendations and Board approvals recorded here." },
+  { template:"2.5 Annual Board Calendar", owner:"Executive", also:"All committees (scheduling)", why:"Integrates all committee meeting dates, events, and deadlines." },
+  { template:"3.1 Technology Vendor Contract", owner:"Technology & Digital Services", also:"Finance & Audit (approval), Publications (web/CMS vendors)", why:"Finance reviews contracts; Publications depends on web/CMS vendors." },
+  { template:"3.5 Data Privacy Policy", owner:"Technology & Digital Services", also:"Membership (member data), Development (donor data), Publications (subscribers)", why:"All data collection across the org must comply with one consistent policy." },
+  { template:"4.6 Gift Acknowledgment Letters", owner:"Development & Fundraising", also:"Finance & Audit (IRS compliance), Membership (member donations)", why:"IRS-compliant acknowledgments required for all gifts regardless of source." },
+  { template:"5.7 Social Media Policy", owner:"Publications & Communications", also:"All committees (when posting on behalf of org)", why:"Any committee representative posting on social media must follow one policy." },
+  { template:"10.1 Strategic Plan", owner:"Strategic Planning", also:"All committees (alignment and execution)", why:"Every committee's work plan ties back to the strategic plan's priorities." },
+];
+
+const CHECKLISTS = [
+  {
+    name: "Board Director Onboarding Checklist (180-Day Timeline)",
+    items: [
+      "Board Chair (primary owner); Executive Director (partner); Governance Committee (oversight)",
+      "From appointment through first 180 days of service",
+      "Board Chair tracks completion; mentor supports day-to-day; Governance Committee reviews at 180-day milestone",
+      "Every new director onboarded",
+      "Detail",
+      "Welcome email sent from Board Chair with key dates and expectations",
+      "Welcome packet delivered (hard copy or digital folder)",
+      "Articles of Incorporation provided",
+      "Current Bylaws provided",
+      "Most recent Form 990 provided",
+      "Current strategic plan provided",
+      "Current fiscal year approved budget provided",
+      "Most recent audited financial statements provided",
+      "Board roster with contact information provided",
+      "Committee structure and roster provided",
+      "Annual meeting calendar provided",
+      "Last 3 meetings' minutes provided",
+      "BYC 'What Every New Board Member Should Know' primer provided",
+      "Board Member Job Description (BYC Template 3) provided and signed",
+      "Conflict-of-Interest Policy reviewed and signed (BYC Template)",
+      "Annual Conflict-of-Interest Disclosure completed",
+      "Whistleblower Policy reviewed and acknowledged",
+      "Document Retention Policy reviewed",
+      "D&O Insurance coverage confirmed and summary shared",
+      "Indemnification language in bylaws reviewed with director",
+      "Background check completed (if required by organizational policy)",
+      "Code of Conduct / Ethics Policy signed",
+      "Confidentiality Agreement signed (if applicable)",
+      "Added to board email distribution list",
+      "Granted access to board portal or shared drive",
+      "Added to committee communication channels (if pre-assigned)",
+      "Calendar invitations sent for first 6 months of meetings",
+      "Zoom/video conference credentials shared (if virtual)",
+      "Formal orientation session completed (90\u2013120 minutes with Board Chair and ED)",
+      "Mission, vision, values, and history reviewed",
+      "Governance structure and committee system explained",
+      "Strategic plan walkthrough completed",
+      "Financial overview session completed (with Treasurer or CFO)",
+      "Board culture and meeting norms explained",
+      "BYC 'What Every New Board Member Should Know' primer completed (pre-read)",
+      "Sector-specific orientation completed (if applicable)",
+      "Legal and fiduciary duties briefing completed",
+      "1:1 meeting with Board Chair completed (30\u201360 min)",
+      "1:1 meeting with Executive Director completed (30\u201360 min)",
+      "Introduction to Board Secretary/Treasurer completed",
+      "Mentor pairing confirmed and first mentor conversation held",
+      "Introductions to 2\u20133 other directors initiated",
+      "Introduction to key staff liaison completed",
+      "First board meeting attended with buddy seated nearby",
+      "Pre-read materials reviewed before meeting",
+      "Meeting debrief with mentor within 48 hours",
+      "Attendance and participation noted in minutes",
+      "Site visit to programs completed (in-person or virtual)",
+      "Program leaders introduced and briefed",
+      "Meeting with beneficiaries/clients (when appropriate)",
+      "Key impact metrics reviewed and understood",
+      "Stakeholder perspective documented",
+      "Committee preference discussion with Board Chair completed",
+      "Committee assignment confirmed",
+      "Introduction to Committee Chair completed",
+      "Committee charter reviewed",
+      "First committee meeting attended",
+      "BYC 'Why Committees Matter' primer provided (if joining committee)",
+      "Financial statements walkthrough with Treasurer completed",
+      "Form 990 reviewed line-by-line with Treasurer or CFO",
+      "Budget-to-actual monitoring explained",
+      "Operating reserve and financial health ratios discussed",
+      "Annual audit process and management letter reviewed",
+      "Second board meeting attended with active participation",
+      "First meaningful contribution made (question, insight, proposal)",
+      "Second committee meeting attended",
+      "First committee assignment owned and completed",
+      "Board chair observed director engaged in substantive discussion",
+      "Annual board giving expectation reviewed and confirmed",
+      "Personal giving commitment made (at level meaningful to director)",
+      "Fundraising role preference identified (Introducer / Thanker / Host / Asker / Advocate / Strategist)",
+      "Introduction to Development Committee Chair",
+      "First fundraising-related action taken (introduction, call, event attendance, etc.)",
+      "Scheduled 30\u201345 minute check-in with Board Chair completed",
+      "Director asked: What surprised you? What barriers exist? What support do you need?",
+      "Committee fit confirmed or adjusted",
+      "Any concerns documented and addressed",
+      "Director confirms intent to continue active service",
+      "Mentor relationship reviewed and adjusted if needed",
+      "Third and fourth board meetings attended with confidence",
+      "Multiple substantive contributions to board discussions",
+      "Committee work demonstrated \u2014 clear accountability for at least one deliverable",
+      "Director now invited to contribute beyond assigned scope",
+      "Director has made at least one introduction or connection on behalf of the organization",
+      "BYC Signature Board Training Course enrolled (Essentials or Comprehensive)",
+      "First module of BYC Board Training completed",
+      "Sector-specific training identified and scheduled",
+      "Peer board visit or site visit to similar organization (optional)",
+      "Committee leadership opportunities discussed",
+      "Officer pipeline conversation initiated (if director shows leadership aptitude)",
+      "Mentor matches shifted to leadership mentor if appropriate",
+      "Special project or task force opportunity identified",
+      "Formal 180-day review meeting with Board Chair completed",
+      "Director performance and engagement assessed",
+      "Director satisfaction with onboarding experience captured",
+      "Onboarding lessons learned documented for future directors",
+      "Director officially transitioned from 'new' to 'full' member status",
+      "Completed onboarding checklist filed in governance records",
+    ]
+  },
+  {
+    name: "Board Director Offboarding Checklist (6-Month Transition)",
+    items: [
+      "Board Chair (primary owner); Board Secretary (documentation); Governance Committee (succession)",
+      "From announcement of departure through 90 days after transition",
+      "Board Chair leads; Secretary documents; Governance Committee manages succession search",
+      "Every director offboarded",
+      "Detail",
+      "\u2610 Term End  \u2610 Personal  \u2610 Professional  \u2610 Health  \u2610 Other",
+      "\u2610 Yes \u2014 Name: ___________________  \u2610 No",
+      "Director formally notifies Board Chair of departure (written preferred)",
+      "Board Chair acknowledges and schedules transition planning conversation",
+      "Conversation held: reasons, timeline, obligations, future relationship",
+      "Board Chair informs Executive Director",
+      "Board Chair informs Governance/Nominating Committee Chair",
+      "Full board informed at next meeting (or earlier if urgent)",
+      "Staff informed appropriately (timing depends on sensitivity)",
+      "External communications plan drafted (if public-facing director)",
+      "Written transition plan created with dates and responsibilities",
+      "Director's skills, networks, and role mapped for successor profile",
+      "Board Composition Matrix (BYC Template 2) reviewed for gaps",
+      "Candidate list generated by Governance Committee",
+      "Candidate outreach and interviews initiated",
+      "If departing is an officer: officer succession plan activated",
+      "If departing chairs a committee: committee succession plan consulted",
+      "Active committee work reviewed \u2014 what transfers, what continues, what ends",
+      "Open action items inventoried",
+      "Donor/sponsor relationships owned by director identified",
+      "Outstanding commitments (speaking, introductions, sponsorships) mapped",
+      "Any contractual obligations on behalf of the organization reviewed",
+      "Successor confirmed by board action (if term replacement required)",
+      "Successor announced to board and staff",
+      "Successor paired with outgoing director for shadow period",
+      "Successor attends committee meetings where outgoing director serves",
+      "Outgoing director provides written role summary to successor",
+      "Outgoing director shares 'what I wish I had known' insights",
+      "Donors/sponsors: personal introductions of successor arranged",
+      "Community partners: transition communications sent",
+      "Key stakeholders: personal outreach with successor CC'd",
+      "Vendors/contractors (if applicable): notifications sent",
+      "Media/press contacts (if applicable): transition noted",
+      "All board/committee files in organization's system (not personal drives)",
+      "Contact lists handed off with context and history",
+      "Notes on open relationships and conversations documented",
+      "Credentials list prepared for revocation (but not yet revoked)",
+      "Historical context on major decisions documented",
+      "Formal written resignation letter submitted (if not already)",
+      "Resignation letter accepted by board at regular meeting (noted in minutes)",
+      "State registration updated if required (officer changes, registered agent, etc.)",
+      "IRS notification (if required \u2014 typically officer changes on next Form 990)",
+      "Bank signature cards updated (if director had signing authority)",
+      "Final minutes acknowledging service drafted",
+      "Post-service confidentiality obligations reviewed with director",
+      "Continuing duties clarified (e.g., finalizing audit participation)",
+      "'What I wish I had known' letter written to successor",
+      "Final exit interview completed with Board Chair",
+      "Departure survey completed (for governance improvement)",
+      "Open issues documented and assigned to continuing director or staff",
+      "Institutional memory documented on major decisions and commitments",
+      "Recognition at final board meeting planned",
+      "Thank-you letter from Board Chair drafted",
+      "Public recognition (newsletter, annual report) coordinated",
+      "Alumni recognition plan communicated (if applicable)",
+      "Personal gift or token of appreciation identified",
+      "Outgoing director attends final meeting",
+      "Formal recognition delivered (Board Chair remarks)",
+      "Successor formally welcomed (if replacement present)",
+      "Final vote to accept resignation recorded in minutes",
+      "Commemorative gift or acknowledgment presented",
+      "Outgoing director offered final remarks",
+      "Group photo with board (if culturally appropriate)",
+      "Transition officially recorded \u2014 director's term ends this date",
+      "Email distribution list access removed",
+      "Board portal / shared drive access revoked",
+      "Meeting calendar access removed",
+      "Committee communication channels access removed",
+      "Bank signature authority removed (if applicable)",
+      "Building access / keys returned (if applicable)",
+      "Organization credit card returned (if applicable)",
+      "Any organization property returned",
+      "D&O insurance tail coverage confirmed for service period",
+      "Indemnification obligations noted (continue for actions during service)",
+      "Post-service legal protections reviewed with former director",
+      "Contact information retained for potential indemnification claims",
+      "Former director added to alumni communications list (with consent)",
+      "Invitation to future events extended (with consent)",
+      "Ongoing donor cultivation plan established (if applicable)",
+      "Non-interference expectations communicated (no direct staff contact, etc.)",
+      "Former director positioned as ambassador, not current decision-maker",
+      "Completed onboarding checklist, tenure records, and offboarding checklist filed together",
+      "Director file sealed and archived per Document Retention Policy",
+      "Lessons learned from transition documented",
+      "Offboarding checklist reviewed and improved for next transition",
+    ]
+  },
+  {
+    name: "Committee Member/Chair Onboarding Checklist (90-Day Timeline)",
+    items: [
+      "Committee Chair (primary owner); mentor (day-to-day support); Board Chair (oversight for chair transitions)",
+      "From appointment through first 90 days of committee service",
+      "Chair tracks completion; mentor partners on day-to-day; Chair conducts formal check-ins",
+      "Every new member or newly appointed chair onboarded",
+      "Detail",
+      "\u2610 Member  \u2610 Vice-Chair  \u2610 Chair  \u2610 Ex Officio",
+      "Welcome email sent from Committee Chair",
+      "Committee charter provided",
+      "Current annual work plan and calendar provided",
+      "Last 3 meetings' minutes provided",
+      "Action item log (current) provided",
+      "Most recent committee dashboard/report provided",
+      "Committee roster with contact information provided",
+      "Board roster and staff liaison contacts provided",
+      "Committee Member Role Description (BYC Template 3) provided and signed",
+      "BYC 'Why Committees Matter' primer provided",
+      "Relevant policies provided (COI, Whistleblower, etc.)",
+      "Conflict-of-Interest Disclosure completed",
+      "Confidentiality expectations reviewed",
+      "D&O Insurance applicability confirmed (member-specific coverage)",
+      "Any committee-specific legal exposures reviewed (e.g., audit committee, ethics committee)",
+      "Added to committee email distribution",
+      "Granted access to committee shared drive / folder",
+      "Calendar invitations sent for upcoming meetings",
+      "Video conference credentials shared (if virtual)",
+      "Access to decision tracking tools (if used)",
+      "Co-facilitation plan with outgoing chair confirmed (if transitioning)",
+      "System access elevated to chair-level (agenda drafting, minute approval, etc.)",
+      "Calendar blocking for chair-only responsibilities (board chair 1:1, ED 1:1)",
+      "BYC Signature Committee Chair Training Course enrolled",
+      "Chair Succession & Handoff Checklist (BYC Template 13) reviewed",
+      "Vice-Chair Development Plan (BYC Template 12) drafted",
+      "30\u201345 minute orientation call with Committee Chair completed",
+      "Committee charter walkthrough completed",
+      "Committee's role in overall board governance explained",
+      "Committee's place in current strategic priorities explained",
+      "Introduction to staff liaison (if applicable)",
+      "Mentor pairing confirmed and first mentor conversation held",
+      "Committee culture and meeting norms discussed",
+      "First committee meeting attended",
+      "Seated with buddy who can orient in real time",
+      "Pre-read materials reviewed before meeting",
+      "Meeting debrief with mentor within 48 hours",
+      "1:1 with Board Chair completed (30 min)",
+      "1:1 with Executive Director completed (30 min)",
+      "Vice-chair identified (or confirmed if inherited)",
+      "First agenda drafted with outgoing chair's input (if transitioning)",
+      "Handoff letter from outgoing chair received",
+      "Credentials and system access transferred",
+      "Second committee meeting attended",
+      "First meaningful contribution (question, insight, proposal)",
+      "First committee assignment accepted",
+      "Committee work plan reviewed \u2014 member's specific role understood",
+      "Subcommittee or working group joined (if available)",
+      "60-day check-in with Chair completed (15 min)",
+      "First full meeting run independently (if transition complete)",
+      "First board report drafted and submitted",
+      "Vice-chair's development plan activated",
+      "First 1:1 cycle complete with all committee members (if possible)",
+      "Committee Composition Matrix reviewed (BYC Template 2)",
+      "Committee Self-Assessment schedule planned",
+      "Third committee meeting attended",
+      "Taken ownership of at least one substantive action item",
+      "Demonstrated understanding of committee's current strategic priorities",
+      "Provided useful input in at least one decision",
+      "Confirmed intent to serve full term",
+      "Formal 90-day review meeting with Chair completed",
+      "Performance and engagement assessed",
+      "Experience with onboarding captured",
+      "Member officially transitioned from 'new' to 'full' status",
+      "Completed checklist filed in committee records",
+      "Three meetings facilitated independently",
+      "Three board reports delivered",
+      "Committee self-assessment initiated (if annual cycle warrants)",
+      "Charter review initiated if gaps identified",
+      "Annual work plan finalized",
+      "90-day review with Board Chair completed",
+    ]
+  },
+  {
+    name: "Committee Member/Chair Offboarding Checklist (3-Month Transition)",
+    items: [
+      "Committee Chair (for member transitions); Outgoing Chair + Board Chair (for chair transitions)",
+      "From announcement through 90 days after transition",
+      "Chair leads; both outgoing and incoming track completion for chair transitions",
+      "Every committee member or chair offboarded",
+      "Detail",
+      "\u2610 Member  \u2610 Vice-Chair  \u2610 Chair",
+      "\u2610 Term End  \u2610 Resignation  \u2610 Promotion to Other Role  \u2610 Other",
+      "\u2610 Yes \u2014 Name: ___________________  \u2610 No",
+      "Member notifies Committee Chair of departure (written preferred)",
+      "Committee Chair acknowledges and schedules transition conversation",
+      "Conversation held: reasons, timeline, commitments to wrap up",
+      "Board Chair informed (required for chair transitions)",
+      "Executive Director informed",
+      "Committee informed at next meeting",
+      "Transition plan drafted with dates and responsibilities",
+      "Successor profile mapped (skills, networks, perspective)",
+      "Composition Matrix (BYC Template 2) reviewed for gaps",
+      "Candidate list generated",
+      "For chair transitions: Vice-Chair Development Plan activated (BYC Template 12)",
+      "Successor confirmed or recruitment initiated",
+      "Active assignments inventoried",
+      "Open action items mapped \u2014 what transfers, what continues, what ends",
+      "Unfinished deliverables documented",
+      "Outstanding commitments (to board, to staff, to external parties) listed",
+      "Successor confirmed and announced to committee",
+      "Successor attends committee meetings as observer/co-member",
+      "Outgoing member provides written role summary",
+      "Historical context on major decisions shared",
+      "Successor co-leads agenda preparation",
+      "Successor facilitates part of committee meetings",
+      "Outgoing Chair introduces successor to Board Chair and ED",
+      "Outgoing Chair introduces successor to external stakeholders",
+      "System access and chair-level credentials prepared for transfer",
+      "Chair Succession & Handoff Checklist (BYC Template 13) in use",
+      "All committee files in organization's system (not personal drives)",
+      "Personal notes worth preserving transferred to shared drive",
+      "Contact list annotations shared (context on relationships)",
+      "Any committee-owned vendor contacts documented",
+      "Outstanding assignments completed or formally handed off",
+      "Unfinished work documented with recommended next steps",
+      "Final committee meeting attended by outgoing member",
+      "'What I wish I had known' insights shared with successor",
+      "Exit conversation with Committee Chair completed",
+      "Final agenda co-drafted with successor (successor leads by next meeting)",
+      "Full committee documentation handed off",
+      "Outgoing chair prepares transition remarks for final meeting",
+      "Board chair notified of exact transition date",
+      "Written 'what I wish I had known' letter completed for successor",
+      "Thank-you from Committee Chair delivered",
+      "Recognition at final committee meeting planned",
+      "Public recognition (if warranted) coordinated",
+      "Chair recognition at next board meeting planned (for chair transitions)",
+      "Outgoing member attends final meeting",
+      "Formal recognition delivered",
+      "Successor formally welcomed (if transition overlap)",
+      "Resignation/term-end acknowledged in minutes",
+      "Transition noted in committee report to board",
+      "Chair title and authority formally transferred at meeting",
+      "Successor's first official act conducted (e.g., closing the meeting)",
+      "Outgoing chair delivers brief remarks",
+      "Board Chair attends or sends acknowledgment",
+      "Transition recorded in meeting minutes and board minutes",
+      "Committee email distribution list access removed",
+      "Committee shared drive access removed",
+      "Communication channels access removed",
+      "Chair-level system access revoked (if applicable)",
+      "Any vendor/partner access credentials revoked",
+      "Post-service confidentiality obligations confirmed",
+      "Former member remains available for questions (without attending meetings)",
+      "Former chair provides 1\u20132 optional check-ins with successor during first 90 days",
+      "Former chair does NOT attend committee meetings after transition",
+      "Alumni communications consent confirmed",
+      "Completed onboarding checklist, tenure records, and offboarding checklist filed together",
+      "Lessons learned documented for future transitions",
+      "Offboarding checklist reviewed and improved",
+      "Former member added to alumni list (with consent)",
+    ]
+  },
+];
+
+const CURATED_TEMPLATES = {
+  '2.1': { name:'Executive Committee Charter', body: `[Organization Name]
+EXECUTIVE COMMITTEE CHARTER
+Effective: [Date]
+
+ARTICLE I — AUTHORITY
+The Executive Committee acts on behalf of the Board of Directors between regular meetings, within the scope of authority delegated by the Board.
+
+ARTICLE II — COMPOSITION
+The Executive Committee shall consist of the Board Chair, Vice Chair, Treasurer, and Secretary, plus up to two at-large directors elected by the Board.
+
+ARTICLE III — RESPONSIBILITIES
+- Make decisions requiring action between Board meetings
+- Recommend agenda items to the full Board
+- Oversee CEO/Executive Director performance evaluation
+- Review and recommend Board policies
+
+ARTICLE IV — MEETINGS
+The Executive Committee shall meet at least quarterly and at the call of the Chair. A majority of members constitutes a quorum.
+
+Adopted: ____________________` },
+  '2.2': { name:'Board Meeting Agenda', body: `[Organization Name]
+Board of Directors Meeting Agenda
+[Date] · [Time] · [Location]
+
+1. Call to Order & Confirmation of Quorum
+2. Approval of Agenda
+3. Approval of Prior Minutes
+4. Consent Agenda (routine items approved by single vote)
+5. Executive Director Report
+6. Treasurer's Report & Financial Statements
+7. Committee Reports
+8. Old Business
+9. New Business
+10. Executive Session (if applicable)
+11. Adjournment` },
+  '2.3': { name:'Board Meeting Minutes', body: `[Organization Name]
+BOARD OF DIRECTORS MEETING MINUTES
+Date: [Date] · Location: [Location]
+
+DIRECTORS PRESENT: [names]
+DIRECTORS ABSENT: [names]
+STAFF/OTHERS PRESENT: [names]
+
+A quorum was confirmed.
+
+CALL TO ORDER
+The meeting was called to order at [time] by [Chair name].
+
+APPROVAL OF MINUTES
+The minutes of the [prior date] meeting were approved [unanimously / by a vote of X-Y].
+
+REPORTS
+[Summary of reports given.]
+
+OLD BUSINESS
+[Summary.]
+
+NEW BUSINESS
+[Summary.]
+
+ACTION ITEMS
+[List with owners and deadlines.]
+
+ADJOURNMENT
+The meeting adjourned at [time].
+
+Respectfully submitted,
+_______________________________
+Secretary` },
+  '2.6': { name:'Board Resolution', body: `[Organization Name]
+RESOLUTION OF THE BOARD OF DIRECTORS
+
+[RESOLUTION TITLE]
+
+WHEREAS, [background context];
+
+WHEREAS, [additional context];
+
+NOW, THEREFORE, BE IT RESOLVED:
+
+RESOLVED, [decision being made];
+
+RESOLVED FURTHER, [additional decisions];
+
+The foregoing resolution was duly adopted by the Board of Directors of [Organization Name] on [date].
+
+_______________________________
+Secretary
+
+_______________________________
+Chair / President` },
+  '1.8': { name:'Conflict of Interest Disclosure', body: `[Organization Name]
+ANNUAL CONFLICT OF INTEREST DISCLOSURE
+Fiscal Year: [year]
+
+NAME: ___________________________
+ROLE: ___________________________
+
+1. Do you, or any immediate family member, have a financial interest in any entity that does business with the organization?
+   ☐ No    ☐ Yes — describe: ____________________________________________
+
+2. Do you serve on the board of any entity that has a relationship with the organization?
+   ☐ No    ☐ Yes — describe: ____________________________________________
+
+3. Has the organization entered into any transaction during the past year in which you have a material financial interest?
+   ☐ No    ☐ Yes — describe: ____________________________________________
+
+4. Are there any other relationships that could be perceived as a conflict?
+   ☐ No    ☐ Yes — describe: ____________________________________________
+
+I have read the organization's Conflict of Interest Policy and agree to disclose any actual, potential, or perceived conflicts as they arise.
+
+SIGNATURE: _________________________________  DATE: _____________` },
+  '1.1': { name:'Annual Budget', body: `[Organization Name]
+ANNUAL OPERATING BUDGET
+Fiscal Year: [year]
+
+REVENUE
+Membership Dues:                  $________
+Individual Contributions:         $________
+Major Gifts:                      $________
+Grants (Foundation):              $________
+Grants (Government):              $________
+Earned Revenue:                   $________
+Special Events (net):             $________
+Investment Income:                $________
+Other Revenue:                    $________
+TOTAL REVENUE:                    $________
+
+EXPENSES
+Personnel - Salaries:             $________
+Personnel - Benefits & Taxes:     $________
+Contract Services:                $________
+Professional Fees:                $________
+Program Expenses:                 $________
+Occupancy:                        $________
+Office & Supplies:                $________
+Technology:                       $________
+Insurance:                        $________
+Other Expenses:                   $________
+TOTAL EXPENSES:                   $________
+
+NET SURPLUS / (DEFICIT):          $________
+
+Prepared by: _________________  Date: _________
+Approved by Board: ___________  Date: _________` },
+  '4.1': { name:'Annual Fundraising Plan', body: `[Organization Name]
+ANNUAL FUNDRAISING PLAN
+Fiscal Year: [year]
+
+REVENUE GOAL: $_________
+
+STRATEGY 1 — Individual Donors
+Target: $______
+Tactics: [annual appeal, monthly giving, major gifts, etc.]
+
+STRATEGY 2 — Foundations
+Target: $______
+Tactics: [grants pipeline, proposals to: ___]
+
+STRATEGY 3 — Corporate Sponsors
+Target: $______
+Tactics: [sponsorship packages, corporate giving programs]
+
+STRATEGY 4 — Events
+Target: $______
+Tactics: [annual gala, fundraising luncheon]
+
+STRATEGY 5 — Other
+Target: $______
+Tactics: [_____]
+
+TIMELINE
+Q1: [milestones]
+Q2: [milestones]
+Q3: [milestones]
+Q4: [milestones]
+
+STEWARDSHIP & RECOGNITION
+[Plan for thanking and retaining donors.]` },
+  '7.1': { name:'Program Charter', body: `[Organization Name]
+PROGRAM CHARTER
+
+PROGRAM NAME: ___________________________________
+PROGRAM DIRECTOR: ________________________________
+START DATE: __________  REVIEW DATE: __________
+
+MISSION ALIGNMENT
+How this program advances the organizational mission.
+
+PARTICIPANTS / BENEFICIARIES
+Who is served? Population, eligibility, capacity.
+
+GOALS & OUTCOMES
+What success looks like. Measurable outcomes.
+
+ACTIVITIES & METHODS
+Core activities and how they produce outcomes.
+
+BUDGET & RESOURCES
+Annual budget. Staff. Volunteers. Infrastructure.
+
+EVALUATION
+How outcomes will be measured. Reporting cadence.` }
+};
+
+
+// ═════════════════════════════════════════════
+//  HELPERS — committees data model
+// ═════════════════════════════════════════════
+function teamData(){
+  const t = currentTeam();
+  if (!t) return null;
+  t.committees = t.committees || [];
+  t.adhocCommittees = t.adhocCommittees || [];
+  t.checklistProgress = t.checklistProgress || {};
+  return t;
+}
+
+function myCommittees(){ const t = teamData(); return t ? t.committees : []; }
+function adhocCommittees(){ const t = teamData(); return t ? t.adhocCommittees : []; }
+
+function addCommittee(charter){
+  const t = teamData(); if (!t) return;
+  if (t.committees.find(c => c.charterId === charter.id)) return; // dedupe
+  t.committees.push({
+    charterId: charter.id, name: charter.name,
+    chair:'', members:'', cadence:'Quarterly', nextMeeting:'',
+    notes:'', adopted:false, adoptedDate:'',
+    createdAt: new Date().toISOString()
+  });
+  logHistory({ type:'committee_added', itemName:'Added committee: '+charter.name });
+  save();
+}
+function removeCommittee(charterId){
+  const t = teamData(); if (!t) return;
+  const c = t.committees.find(x => x.charterId === charterId);
+  if (c) logHistory({ type:'committee_removed', itemName:'Removed committee: '+c.name });
+  t.committees = t.committees.filter(x => x.charterId !== charterId);
+  save();
+}
+function updateCommittee(charterId, patch){
+  const t = teamData(); if (!t) return;
+  const c = t.committees.find(x => x.charterId === charterId);
+  if (!c) return;
+  Object.assign(c, patch); save();
+}
+
+function addAdhoc(name){
+  const t = teamData(); if (!t) return;
+  const id = 'a'+Date.now()+Math.floor(Math.random()*1000);
+  t.adhocCommittees.push({
+    id, name: name||'New Ad Hoc Committee',
+    chair:'', members:'', purpose:'', scope:'',
+    startDate: new Date().toISOString().slice(0,10),
+    sunsetDate:'', dissolved:false, dissolveDate:'',
+    deliverables:'', notes:''
+  });
+  logHistory({ type:'adhoc_added', itemName:'Created ad hoc: '+(name||'New') });
+  save();
+  return id;
+}
+function updateAdhoc(id, patch){
+  const t = teamData(); if (!t) return;
+  const a = t.adhocCommittees.find(x => x.id === id);
+  if (a){ Object.assign(a, patch); save(); }
+}
+function deleteAdhoc(id){
+  const t = teamData(); if (!t) return;
+  t.adhocCommittees = t.adhocCommittees.filter(x => x.id !== id);
+  save();
+}
+
+// Checklist progress helpers
+function getChecklistDone(clName, itemIdx){
+  const t = teamData(); if (!t) return false;
+  const key = clName + '|' + itemIdx;
+  return !!(t.checklistProgress && t.checklistProgress[key]);
+}
+function setChecklistDone(clName, itemIdx, done){
+  const t = teamData(); if (!t) return;
+  t.checklistProgress = t.checklistProgress || {};
+  const key = clName + '|' + itemIdx;
+  if (done) t.checklistProgress[key] = true; else delete t.checklistProgress[key];
+  save();
+}
+
+// Seed demo committees for a team
+function seedCommitteesForTeam(team){
+  if (!team) return;
+  team.committees = team.committees || [];
+  // Pre-seed Executive, Finance & Audit, Development for a medium-sized demo
+  ['executive-committee','finance-audit-committee','development-fundraising-committee','membership-outreach-committee'].forEach(cid => {
+    const charter = COMMITTEE_CHARTERS.find(c => c.id === cid);
+    if (charter && !team.committees.find(x => x.charterId === cid)){
+      team.committees.push({
+        charterId: cid, name: charter.name,
+        chair: cid==='executive-committee' ? 'Alex Rivera' : (cid==='finance-audit-committee' ? 'Jordan Park' : ''),
+        members: cid==='executive-committee' ? 'Alex Rivera (Chair), Jordan Park (Treasurer), Sam Wong (Secretary)' : '',
+        cadence: cid==='executive-committee' ? 'Monthly' : 'Quarterly',
+        nextMeeting:'2026-07-15', notes:'',
+        adopted:true, adoptedDate:'2024-04-15',
+        createdAt: new Date().toISOString()
+      });
+    }
+  });
+  // Seed one ad hoc committee as example
+  team.adhocCommittees = team.adhocCommittees || [];
+  if (team.adhocCommittees.length === 0){
+    team.adhocCommittees.push({
+      id:'a-demo', name:'2026 Strategic Refresh Task Force',
+      chair:'Sam Wong', members:'Sam Wong (Chair), Alex Rivera, Jamie Patel (ED), 2 community members TBD',
+      purpose:'Refresh the 5-year strategic plan ahead of the 2027 fiscal year.',
+      scope:'Conduct stakeholder interviews, environmental scan, SWOT analysis, and draft the updated plan. Present recommendations to the Board for adoption at the November 2026 meeting.',
+      startDate:'2026-04-01', sunsetDate:'2026-11-30',
+      dissolved:false, dissolveDate:'',
+      deliverables:'Draft strategic plan (Oct 1), Board presentation (Nov 15), final adopted plan (Nov 30)',
+      notes:'Quarterly check-ins with the full Board.'
+    });
+  }
+}
+
+function escapeHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function nlToBr(s){ return escapeHtml(s||'').replace(/\n/g,'<br>'); }
+function nlToBullets(s){
+  if (!s) return '';
+  return '<ul>' + s.split('\n').filter(l => l.trim()).map(l => '<li>'+escapeHtml(l.trim())+'</li>').join('') + '</ul>';
+}
+
+// ═════════════════════════════════════════════
+//  DASHBOARD
+// ═════════════════════════════════════════════
+function renderDashboard(){
+  const t = teamData();
+  if (!t){ document.getElementById('page-dashboard').innerHTML = '<div class="empty-state">No team selected. Click Admin in the sidebar to view a team, or sign out and sign in as a regular user.</div>'; return; }
+  const myc = t.committees || [];
+  const adh = t.adhocCommittees || [];
+  const adopted = myc.filter(c => c.adopted).length;
+  const size = (t.profile && t.profile.orgSize) || 'medium';
+  const sizeRec = ORG_SIZES.find(s => s.id === size) || ORG_SIZES[1];
+  const recommended = COMMITTEE_CHARTERS.filter(c => {
+    if (size === 'small') return c.recommendedFor === 'small';
+    if (size === 'medium') return c.recommendedFor === 'small' || c.recommendedFor === 'medium';
+    return true;
+  });
+  const missing = recommended.filter(r => !myc.find(c => c.charterId === r.id));
+
+  const stat = (label, num, sub, cls) => `<div class="stat-card ${cls||''}"><div class="stat-label">${label}</div><div class="stat-num">${num}</div><div class="stat-sub">${sub||''}</div></div>`;
+
+  document.getElementById('page-dashboard').innerHTML = `
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Committee Dashboard</h1>
+        <div class="page-sub">${escapeHtml(t.profile.orgName||'(unnamed org)')} · ${escapeHtml(sizeRec.label)}</div>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn btn-red" href="Guide.html" target="_blank" rel="noopener noreferrer">📖 User Guide</a>
+        <button class="btn btn-teal" onclick="navigate('library')">+ Add a Committee</button>
+      </div>
+    </div>
+    <div class="stats-grid">
+      ${stat('Standing committees', myc.length, adopted + ' adopted')}
+      ${stat('Ad hoc committees', adh.length, adh.filter(a => !a.dissolved).length + ' active')}
+      ${stat('Recommended remaining', missing.length, missing.length===0 ? 'You\'re fully covered' : 'For your org size')}
+      ${stat('Templates available', '126', 'In the directory')}
+    </div>
+    ${missing.length ? `<div class="section">
+      <div class="section-title">Recommended for your org size <span class="badge badge-amber">${missing.length}</span></div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:10px">Based on your ${escapeHtml(sizeRec.label)}, these standing committees are commonly established but not yet on your roster.</p>
+      ${missing.map(c => `<div class="admin-team" onclick="navigate('library'); setTimeout(()=>scrollToCommittee('${c.id}'),50)">
+        <div style="font-size:22px">🏛️</div>
+        <div class="admin-team-info">
+          <div class="admin-team-name">${escapeHtml(c.name)}</div>
+          <div class="admin-team-meta">${escapeHtml((c.purpose||'').slice(0,160))}${(c.purpose||'').length > 160?'…':''}</div>
+        </div>
+        <button class="btn btn-outline" style="padding:6px 14px;font-size:12px" onclick="event.stopPropagation(); addCommittee(COMMITTEE_CHARTERS.find(x=>x.id==='${c.id}')); navigate('mycommittees')">Add →</button>
+      </div>`).join('')}
+    </div>` : ''}
+    <div class="section">
+      <div class="section-title">My Committees <span class="badge badge-blue">${myc.length}</span></div>
+      ${myc.length ? myc.map(c => `<div class="admin-team" onclick="navigate('mycommittees')">
+        <div style="font-size:22px">🏛️</div>
+        <div class="admin-team-info">
+          <div class="admin-team-name">${escapeHtml(c.name)}</div>
+          <div class="admin-team-meta">${escapeHtml(c.chair||'No chair set')} · ${escapeHtml(c.cadence||'No cadence')}${c.adopted ? ' · <span style="color:var(--green)">Adopted '+escapeHtml(c.adoptedDate)+'</span>' : ' · <span style="color:var(--muted)">Not adopted</span>'}</div>
+        </div>
+      </div>`).join('') : '<div class="empty-state">No committees set up yet. Browse the Committee Library to add one.</div>'}
+    </div>
+  `;
+}
+
+function scrollToCommittee(id){
+  const el = document.getElementById('charter-' + id);
+  if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
+}
+
+// ═════════════════════════════════════════════
+//  MY COMMITTEES
+// ═════════════════════════════════════════════
+function renderMyCommittees(){
+  const t = teamData();
+  if (!t){ document.getElementById('page-mycommittees').innerHTML = '<div class="empty-state">No team.</div>'; return; }
+  const myc = t.committees || [];
+
+  const row = (c) => {
+    const charter = COMMITTEE_CHARTERS.find(x => x.id === c.charterId);
+    return `<div class="section">
+      <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:10px">
+        <div>
+          <div style="font-size:17px;font-weight:700;color:var(--navy)">${escapeHtml(c.name)}</div>
+          <div style="font-size:12px;color:var(--muted)">${charter ? escapeHtml((charter.purpose||'').slice(0,200)) : ''}</div>
+        </div>
+        <button class="btn btn-outline" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Remove this committee from your active list? (The charter stays in the Library.)')){removeCommittee('${c.charterId}'); navigate('mycommittees')}">✕ Remove</button>
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px">
+        <div class="field"><label>Chair</label><input type="text" value="${escapeHtml(c.chair)}" oninput="updateCommittee('${c.charterId}', {chair: this.value})" placeholder="Chair name"></div>
+        <div class="field"><label>Meeting cadence</label><select onchange="updateCommittee('${c.charterId}', {cadence: this.value})">
+          ${['Monthly','Bi-monthly','Quarterly','Semi-annually','Annually','As needed'].map(o => `<option ${c.cadence===o?'selected':''}>${o}</option>`).join('')}
+        </select></div>
+        <div class="field"><label>Next meeting</label><input type="date" value="${escapeHtml(c.nextMeeting||'')}" oninput="updateCommittee('${c.charterId}', {nextMeeting: this.value})"></div>
+        <div class="field"><label>Adopted?</label><div style="display:flex;align-items:center;gap:10px"><label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:400"><input type="checkbox" ${c.adopted?'checked':''} onchange="updateCommittee('${c.charterId}', {adopted: this.checked})"> Yes</label> <input type="date" value="${escapeHtml(c.adoptedDate||'')}" oninput="updateCommittee('${c.charterId}', {adoptedDate: this.value})" placeholder="Date adopted"></div></div>
+      </div>
+      <div class="field"><label>Members (one per line, with role in parentheses)</label><textarea oninput="updateCommittee('${c.charterId}', {members: this.value})" style="min-height:80px" placeholder="Jane Doe (Chair)&#10;John Smith&#10;...">${escapeHtml(c.members)}</textarea></div>
+      <div class="field"><label>Notes</label><textarea oninput="updateCommittee('${c.charterId}', {notes: this.value})" style="min-height:60px">${escapeHtml(c.notes)}</textarea></div>
+      ${charter ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal)">View full charter</summary><div style="background:var(--light);padding:14px;border-radius:8px;margin-top:8px;font-size:13px;line-height:1.6">${nlToBr(charter.purpose)}<br><br><b>Composition:</b><br>${nlToBr(charter.composition)}<br><br><b>Meetings:</b><br>${nlToBr(charter.meetings)}</div></details>` : ''}
+    </div>`;
+  };
+
+  document.getElementById('page-mycommittees').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">My Committees</h1><div class="page-sub">${myc.length} active committee${myc.length===1?'':'s'} · track members, cadence, and adoption status</div></div>
+    <div><button class="btn btn-teal" onclick="navigate('library')">+ Add from Library</button></div></div>
+    ${myc.length ? myc.map(row).join('') : '<div class="empty-state">No committees added yet. Browse the <a href="javascript:navigate(\'library\')">Committee Library</a> to add one.</div>'}
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  COMMITTEE LIBRARY
+// ═════════════════════════════════════════════
+function renderLibrary(){
+  const t = teamData();
+  const myc = t ? t.committees : [];
+  document.getElementById('page-library').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Committee Library</h1><div class="page-sub">${COMMITTEE_CHARTERS.length} standing committee charters · click any to view and add</div></div></div>
+    ${COMMITTEE_CHARTERS.map(c => {
+      const added = myc.find(x => x.charterId === c.id);
+      const sizeLabel = c.recommendedFor === 'small' ? 'All sizes' : (c.recommendedFor === 'medium' ? 'Medium+' : 'Large');
+      return `<div id="charter-${c.id}" class="section">
+        <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+          <div>
+            <div style="font-size:18px;font-weight:700;color:var(--navy)">${escapeHtml(c.name)}</div>
+            <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em;margin-top:2px">Recommended for: <b>${sizeLabel}</b></div>
+          </div>
+          ${added ? '<span class="hist-status-chip badge-green">✓ Added to your committees</span>' : `<button class="btn btn-teal" onclick="addCommittee(COMMITTEE_CHARTERS.find(x=>x.id==='${c.id}')); navigate('mycommittees')">+ Add to My Committees</button>`}
+        </div>
+        <div style="font-size:14px;line-height:1.6;color:var(--text)">
+          <h3 style="font-size:13px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin-bottom:6px">Purpose</h3>
+          ${nlToBr(c.purpose)}
+          <h3 style="font-size:13px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px">Composition & Responsibilities</h3>
+          <div style="white-space:pre-wrap">${escapeHtml(c.composition)}</div>
+          <h3 style="font-size:13px;color:var(--navy);text-transform:uppercase;letter-spacing:.04em;margin:14px 0 6px">Meetings</h3>
+          <div style="white-space:pre-wrap">${escapeHtml(c.meetings)}</div>
+        </div>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  AD HOC COMMITTEES
+// ═════════════════════════════════════════════
+function renderAdHoc(){
+  const t = teamData();
+  if (!t){ document.getElementById('page-adhoc').innerHTML = '<div class="empty-state">No team.</div>'; return; }
+  const ah = t.adhocCommittees || [];
+  const active = ah.filter(a => !a.dissolved);
+  const dissolved = ah.filter(a => a.dissolved);
+
+  const row = (a) => `<div class="section">
+    <div style="display:flex;justify-content:space-between;align-items:start;gap:10px;margin-bottom:10px">
+      <div>
+        <div style="font-size:16px;font-weight:700;color:var(--navy)">${escapeHtml(a.name)}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:2px">Started ${escapeHtml(a.startDate||'—')}${a.sunsetDate?' · Sunset by '+escapeHtml(a.sunsetDate):''}${a.dissolved?' · <span style="color:var(--red)">Dissolved '+escapeHtml(a.dissolveDate||'—')+'</span>':''}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        ${!a.dissolved ? `<button class="btn btn-outline" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Dissolve this ad hoc committee? (Record remains.)')){updateAdhoc('${a.id}',{dissolved:true,dissolveDate:new Date().toISOString().slice(0,10)}); navigate('adhoc')}">Dissolve</button>` : ''}
+        <button class="btn btn-outline" style="padding:5px 10px;font-size:11px" onclick="if(confirm('Permanently delete this record?')){deleteAdhoc('${a.id}'); navigate('adhoc')}">✕</button>
+      </div>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+      <div class="field"><label>Name</label><input type="text" value="${escapeHtml(a.name)}" oninput="updateAdhoc('${a.id}',{name:this.value})"></div>
+      <div class="field"><label>Chair</label><input type="text" value="${escapeHtml(a.chair)}" oninput="updateAdhoc('${a.id}',{chair:this.value})"></div>
+      <div class="field"><label>Start Date</label><input type="date" value="${escapeHtml(a.startDate)}" oninput="updateAdhoc('${a.id}',{startDate:this.value})"></div>
+      <div class="field"><label>Sunset Date</label><input type="date" value="${escapeHtml(a.sunsetDate||'')}" oninput="updateAdhoc('${a.id}',{sunsetDate:this.value})"></div>
+    </div>
+    <div class="field"><label>Members</label><textarea oninput="updateAdhoc('${a.id}',{members:this.value})" style="min-height:60px" placeholder="Names with roles">${escapeHtml(a.members)}</textarea></div>
+    <div class="field"><label>Purpose (why this committee exists)</label><textarea oninput="updateAdhoc('${a.id}',{purpose:this.value})" style="min-height:60px">${escapeHtml(a.purpose)}</textarea></div>
+    <div class="field"><label>Scope (what the committee will do)</label><textarea oninput="updateAdhoc('${a.id}',{scope:this.value})" style="min-height:80px">${escapeHtml(a.scope)}</textarea></div>
+    <div class="field"><label>Deliverables</label><textarea oninput="updateAdhoc('${a.id}',{deliverables:this.value})" style="min-height:60px">${escapeHtml(a.deliverables)}</textarea></div>
+    <div class="field"><label>Notes</label><textarea oninput="updateAdhoc('${a.id}',{notes:this.value})" style="min-height:50px">${escapeHtml(a.notes)}</textarea></div>
+  </div>`;
+
+  document.getElementById('page-adhoc').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Ad Hoc Committees</h1><div class="page-sub">${active.length} active${dissolved.length ? ' · '+dissolved.length+' dissolved':''} · time-limited working groups for specific projects</div></div>
+    <div><button class="btn btn-teal" onclick="addAdhoc(); navigate('adhoc')">+ Charter New Ad Hoc Committee</button></div></div>
+
+    <div class="callout tip" style="background:#e6f4f1;border-left:4px solid var(--teal);padding:16px 20px;border-radius:8px;margin-bottom:18px">
+      <div style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px">About Ad Hoc Committees</div>
+      <p style="font-size:13px;margin-bottom:8px"><b>Ad hoc committees</b> are time-limited working groups created to address a specific project or question. Unlike standing committees, they are <b>not in your bylaws</b> — they're created by Board resolution and dissolve when their work is done.</p>
+      <p style="font-size:13px;margin-bottom:8px"><b>How to establish:</b></p>
+      <ol style="font-size:13px;margin-left:20px">
+        <li>Board adopts a resolution creating the committee, naming the chair, specifying purpose and scope, and setting a sunset date.</li>
+        <li>Members are appointed (commonly by the Board Chair).</li>
+        <li>Committee meets, executes its scope, and reports back to the Board.</li>
+        <li>Committee is formally dissolved (typically via Board resolution or automatic sunset).</li>
+      </ol>
+      <p style="font-size:13px;margin-top:8px"><b>Common examples:</b> Search committee (hiring an ED), Strategic Plan Task Force, Audit RFP committee, Bylaws Revision Committee, Capital Campaign Steering Committee.</p>
+    </div>
+
+    ${active.length ? '<div class="section-title" style="margin:18px 0 10px">Active</div>'+active.map(row).join('') : '<div class="empty-state">No active ad hoc committees. Click + Charter New Ad Hoc Committee to start one.</div>'}
+    ${dissolved.length ? '<div class="section-title" style="margin:18px 0 10px;opacity:.6">Dissolved (record)</div>'+dissolved.map(row).join('') : ''}
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  ONBOARDING / OFFBOARDING
+// ═════════════════════════════════════════════
+function renderTransitions(){
+  const t = teamData();
+  if (!t){ document.getElementById('page-transitions').innerHTML = '<div class="empty-state">No team.</div>'; return; }
+  document.getElementById('page-transitions').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Onboarding & Offboarding</h1><div class="page-sub">${CHECKLISTS.length} transition checklists · for board directors and committee members/chairs</div></div></div>
+    <div class="callout tip" style="background:#e6f4f1;border-left:4px solid var(--teal);padding:14px 18px;border-radius:8px;margin-bottom:18px;font-size:13px">Transitions are where nonprofit governance most often breaks. A new director shows up with no orientation; a departing chair leaves with all the institutional knowledge. These checklists prevent that. Check items off as you complete them for each new or departing member.</div>
+    ${CHECKLISTS.map((cl, ci) => {
+      const done = cl.items.filter((_, i) => getChecklistDone(cl.name, i)).length;
+      const pct = cl.items.length ? Math.round((done/cl.items.length)*100) : 0;
+      return `<div class="section">
+        <div class="section-title">${escapeHtml(cl.name)} <span class="badge badge-blue">${done}/${cl.items.length} · ${pct}%</span></div>
+        <div style="margin-bottom:10px"><div class="bar-track"><div class="bar-fill" style="width:${pct}%">${pct}%</div></div></div>
+        <details><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal);padding:6px 0">View ${cl.items.length} tasks</summary>
+        <div style="margin-top:10px">${cl.items.map((task, i) => {
+          const isDone = getChecklistDone(cl.name, i);
+          return `<label style="display:flex;align-items:start;gap:10px;padding:8px;border-bottom:1px solid var(--border);cursor:pointer;font-size:13px;${isDone?'opacity:.55':''}">
+            <input type="checkbox" ${isDone?'checked':''} onchange="setChecklistDone('${cl.name.replace(/'/g,"\'")}', ${i}, this.checked); navigate('transitions')" style="margin-top:2px">
+            <span style="flex:1;${isDone?'text-decoration:line-through':''}">${escapeHtml(task)}</span>
+          </label>`;
+        }).join('')}</div></details>
+      </div>`;
+    }).join('')}
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  TEMPLATES DIRECTORY
+// ═════════════════════════════════════════════
+function renderTemplates(){
+  const grouped = {};
+  TEMPLATE_DIR.forEach(t => {
+    grouped[t.bundle] = grouped[t.bundle] || [];
+    grouped[t.bundle].push(t);
+  });
+  const block = (b) => {
+    const items = grouped[b.id] || [];
+    return `<div class="section">
+      <div class="section-title">${b.id}. ${escapeHtml(b.name)} <span class="badge badge-grey">${items.length} templates</span></div>
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:11px;text-transform:uppercase">#</th><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:11px;text-transform:uppercase">Template</th><th style="text-align:left;padding:6px 8px;color:var(--muted);font-size:11px;text-transform:uppercase">Description</th><th></th></tr></thead>
+        <tbody>${items.map(t => {
+          const hasGenerator = CURATED_TEMPLATES[t.id];
+          return `<tr><td style="padding:6px 8px;color:var(--muted)">${escapeHtml(t.id)}</td><td style="padding:6px 8px;font-weight:600;color:var(--navy)">${escapeHtml(t.name)}</td><td style="padding:6px 8px;color:var(--text)">${escapeHtml(t.desc)}</td><td style="padding:6px 8px;text-align:right">${hasGenerator ? `<button class="btn btn-outline" style="padding:4px 10px;font-size:11px" onclick="openTemplateGen('${t.id}')">Generate</button>` : '<span style="font-size:11px;color:var(--muted)">Source doc</span>'}</td></tr>`;
+        }).join('')}</tbody>
+      </table>
+    </div>`;
+  };
+  document.getElementById('page-templates').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Templates Directory</h1><div class="page-sub">${TEMPLATE_DIR.length} templates across ${TEMPLATE_BUNDLES.length} committees · ${Object.keys(CURATED_TEMPLATES).length} have one-click generators</div></div></div>
+    <div class="callout" style="background:var(--light);border-left:4px solid var(--teal);padding:14px 18px;border-radius:8px;margin-bottom:18px;font-size:13px">Templates marked <b>Generate</b> produce a ready-to-customize draft you can copy or download. Templates marked <b>Source doc</b> live in the full Word library — use these as references; we can add more generators on request.</div>
+    ${TEMPLATE_BUNDLES.map(block).join('')}
+  `;
+}
+
+function openTemplateGen(tid){
+  const tpl = CURATED_TEMPLATES[tid];
+  const dir = TEMPLATE_DIR.find(t => t.id === tid);
+  if (!tpl) return;
+  const w = window.open('', '_blank');
+  w.document.write(`<!DOCTYPE html><html><head><title>${escapeHtml(tpl.name)}</title><style>body{font-family:Georgia,serif;max-width:760px;margin:30px auto;padding:0 30px;line-height:1.6;color:#1a1a2e}h1{color:#1B3A5C;border-bottom:2px solid #1B3A5C;padding-bottom:8px}pre{white-space:pre-wrap;font-family:Georgia,serif;font-size:14px}@page{margin:1in}</style></head><body><h1>${escapeHtml(tpl.name)}</h1><p style="color:#64748b;font-size:13px;margin-bottom:24px">Template ${escapeHtml(tid)}${dir?' from the '+escapeHtml(dir.desc):''}. Replace bracketed placeholders with your organization-specific information.</p><pre>${escapeHtml(tpl.body)}</pre></body></html>`);
+  w.document.close();
+}
+
+// ═════════════════════════════════════════════
+//  CROSS-REFERENCE MATRIX
+// ═════════════════════════════════════════════
+function renderXref(){
+  document.getElementById('page-xref').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Cross-Reference Matrix</h1><div class="page-sub">Templates and policies used across multiple committees</div></div></div>
+    <div class="callout" style="background:var(--light);border-left:4px solid var(--teal);padding:14px 18px;border-radius:8px;margin-bottom:18px;font-size:13px">Some templates are owned by one committee but used by many — for example, the Conflict of Interest Disclosure is owned by Finance & Audit but signed by every committee member. Understanding these shared dependencies prevents committee silos.</div>
+    <div class="section">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="background:var(--light)">
+          <th style="text-align:left;padding:10px;color:var(--muted);font-size:11px;text-transform:uppercase">Template</th>
+          <th style="text-align:left;padding:10px;color:var(--muted);font-size:11px;text-transform:uppercase">Owner</th>
+          <th style="text-align:left;padding:10px;color:var(--muted);font-size:11px;text-transform:uppercase">Also Used By</th>
+          <th style="text-align:left;padding:10px;color:var(--muted);font-size:11px;text-transform:uppercase">Why Shared</th>
+        </tr></thead>
+        <tbody>${XREF_ENTRIES.map(x => `<tr style="border-bottom:1px solid var(--border)">
+          <td style="padding:10px;font-weight:600;color:var(--navy)">${escapeHtml(x.template)}</td>
+          <td style="padding:10px;font-size:12px">${escapeHtml(x.owner)}</td>
+          <td style="padding:10px;font-size:12px;color:var(--muted)">${escapeHtml(x.also)}</td>
+          <td style="padding:10px;font-size:12px">${escapeHtml(x.why)}</td>
+        </tr>`).join('')}</tbody>
+      </table>
+    </div>
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  BUILD HANDBOOK SECTION
+// ═════════════════════════════════════════════
+function buildCommitteeHandbook(){
+  const t = teamData(); if (!t) return '';
+  const orgName = t.profile.orgName || '[Organization]';
+  const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const myc = t.committees || [];
+  const adh = (t.adhocCommittees || []).filter(a => !a.dissolved);
+
+  const charterBlock = (c) => {
+    const charter = COMMITTEE_CHARTERS.find(x => x.id === c.charterId);
+    if (!charter) return '';
+    return `<h2>${escapeHtml(c.name)}</h2>
+      <h3>Purpose</h3>
+      <p>${nlToBr(charter.purpose)}</p>
+      <h3>Composition & Responsibilities</h3>
+      <p style="white-space:pre-wrap">${escapeHtml(charter.composition)}</p>
+      <h3>Meetings</h3>
+      <p style="white-space:pre-wrap">${escapeHtml(charter.meetings)}</p>
+      <h3>Current Officers & Members</h3>
+      <p><b>Chair:</b> ${escapeHtml(c.chair||'TBD')}<br><b>Meeting Cadence:</b> ${escapeHtml(c.cadence)}<br><b>Adopted:</b> ${c.adopted ? escapeHtml(c.adoptedDate||'Yes') : 'Not yet adopted'}</p>
+      ${c.members ? '<p><b>Members:</b><br>' + nlToBr(c.members) + '</p>' : ''}`;
+  };
+
+  return `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${escapeHtml(orgName)} — Committee Handbook</title><style>
+body{font-family:Georgia,'Times New Roman',serif;color:#1a1a2e;line-height:1.55;max-width:780px;margin:40px auto;padding:0 40px}
+h1{font-size:30px;color:#1B3A5C;border-bottom:3px solid #1B3A5C;padding-bottom:10px;margin-top:36px}
+h2{font-size:22px;color:#1B3A5C;margin-top:32px;border-bottom:1px solid #ccc;padding-bottom:6px}
+h3{font-size:16px;color:#2A7B6F;margin-top:18px}
+.cover{text-align:center;padding:60px 0;border-bottom:2px solid #1B3A5C;margin-bottom:50px}
+.cover h1{font-size:36px;border:none}
+@page{margin:1in}
+</style></head><body>
+<div class="cover">
+  <h1>${escapeHtml(orgName)}</h1>
+  <div style="font-size:18px;color:#2A7B6F">COMMITTEE HANDBOOK</div>
+  <div style="margin-top:60px;color:#64748b;font-size:13px">Prepared ${today}</div>
+</div>
+
+<h1>Standing Committees</h1>
+${myc.length ? myc.map(charterBlock).join('') : '<p><em>No standing committees adopted yet.</em></p>'}
+
+${adh.length ? '<h1>Ad Hoc Committees</h1>' + adh.map(a => `
+<h2>${escapeHtml(a.name)}</h2>
+<p><b>Chair:</b> ${escapeHtml(a.chair||'TBD')}<br><b>Start:</b> ${escapeHtml(a.startDate||'—')}${a.sunsetDate?'<br><b>Sunset:</b> '+escapeHtml(a.sunsetDate):''}</p>
+<h3>Purpose</h3><p>${nlToBr(a.purpose)}</p>
+<h3>Scope</h3><p>${nlToBr(a.scope)}</p>
+${a.deliverables ? '<h3>Deliverables</h3><p>'+nlToBr(a.deliverables)+'</p>' : ''}
+`).join('') : ''}
+
+<p style="margin-top:60px;text-align:center;color:#64748b;font-size:11px">${escapeHtml(orgName)} · Committee Handbook · ${today}</p>
+</body></html>`;
+}
+
+function previewHandbook(){
+  const html = buildCommitteeHandbook(); if (!html) return;
+  const w = window.open('', '_blank'); w.document.write(html); w.document.close();
+}
+function downloadHandbookHTML(){
+  const html = buildCommitteeHandbook(); if (!html) return;
+  const orgName = (currentTeam().profile.orgName||'Committee_Handbook').replace(/[^a-z0-9]+/gi,'_');
+  const blob = new Blob([html], {type:'text/html'}); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = orgName + '_Committee_Handbook.html'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+}
+let docxLibLoaded = null;
+function ensureDocxLib(){
+  if (docxLibLoaded) return docxLibLoaded;
+  docxLibLoaded = new Promise((resolve, reject) => {
+    if (window.docx){ resolve(); return; }
+    const s = document.createElement('script'); s.src = 'https://unpkg.com/docx@8.5.0/build/index.umd.min.js';
+    s.onload = () => resolve(); s.onerror = () => { docxLibLoaded = null; reject(new Error('failed')); };
+    document.head.appendChild(s);
+  });
+  return docxLibLoaded;
+}
+async function downloadHandbookDocx(){
+  const t = teamData(); if (!t) return;
+  const btn = document.getElementById('build-docx-btn');
+  if (btn){ btn.disabled = true; btn.textContent = 'Loading library…'; }
+  try { await ensureDocxLib(); }
+  catch(e){ alert('Could not load docx library. Use HTML download.'); if(btn){btn.disabled=false;btn.textContent='⬇ Download .docx';} return; }
+  if (btn) btn.textContent = 'Generating…';
+  const { Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType, PageBreak } = window.docx;
+  const orgName = t.profile.orgName || '[Organization]';
+  const today = new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+  const H1 = text => new Paragraph({ heading: HeadingLevel.HEADING_1, spacing:{before:400,after:120}, children:[new TextRun({ text, bold:true, color:'1B3A5C', size:32 })] });
+  const H2 = text => new Paragraph({ heading: HeadingLevel.HEADING_2, spacing:{before:280,after:80}, children:[new TextRun({ text, bold:true, color:'1B3A5C', size:24 })] });
+  const H3 = text => new Paragraph({ heading: HeadingLevel.HEADING_3, spacing:{before:200,after:60}, children:[new TextRun({ text, bold:true, color:'2A7B6F', size:20 })] });
+  const P = text => new Paragraph({ spacing:{after:120}, children:[new TextRun({ text: text||'', size:22 })] });
+  const sections = [];
+  sections.push(new Paragraph({ alignment:AlignmentType.CENTER, spacing:{before:600,after:80}, children:[new TextRun({ text:orgName, bold:true, size:48, color:'1B3A5C' })] }));
+  sections.push(new Paragraph({ alignment:AlignmentType.CENTER, spacing:{after:120}, children:[new TextRun({ text:'COMMITTEE HANDBOOK', size:28, color:'2A7B6F' })] }));
+  sections.push(new Paragraph({ alignment:AlignmentType.CENTER, spacing:{before:400}, children:[new TextRun({ text:'Prepared '+today, size:20, color:'64748B' })] }));
+  sections.push(new Paragraph({ children:[new PageBreak()] }));
+  sections.push(H1('Standing Committees'));
+  (t.committees||[]).forEach(c => {
+    const charter = COMMITTEE_CHARTERS.find(x => x.id === c.charterId);
+    if (!charter) return;
+    sections.push(H2(c.name));
+    sections.push(H3('Purpose'));
+    (charter.purpose||'').split('\n').filter(l=>l.trim()).forEach(l => sections.push(P(l.trim())));
+    sections.push(H3('Composition & Responsibilities'));
+    (charter.composition||'').split('\n').filter(l=>l.trim()).forEach(l => sections.push(P(l.trim())));
+    sections.push(H3('Meetings'));
+    (charter.meetings||'').split('\n').filter(l=>l.trim()).forEach(l => sections.push(P(l.trim())));
+    sections.push(H3('Current Officers'));
+    sections.push(P('Chair: ' + (c.chair||'TBD')));
+    sections.push(P('Meeting cadence: ' + c.cadence));
+    if (c.members) sections.push(P('Members: ' + c.members));
+  });
+  const adh = (t.adhocCommittees||[]).filter(a => !a.dissolved);
+  if (adh.length){
+    sections.push(H1('Ad Hoc Committees'));
+    adh.forEach(a => {
+      sections.push(H2(a.name));
+      sections.push(P('Chair: ' + (a.chair||'TBD') + ' · Start: ' + (a.startDate||'—') + (a.sunsetDate?' · Sunset: '+a.sunsetDate:'')));
+      sections.push(H3('Purpose')); sections.push(P(a.purpose||''));
+      sections.push(H3('Scope')); sections.push(P(a.scope||''));
+      if (a.deliverables){ sections.push(H3('Deliverables')); sections.push(P(a.deliverables)); }
+    });
+  }
+  const doc = new Document({ creator:'Build Your Club Academy', title: orgName+' Committee Handbook', sections:[{properties:{}, children:sections}] });
+  const blob = await Packer.toBlob(doc);
+  const url = URL.createObjectURL(blob); const a = document.createElement('a');
+  a.href = url; a.download = orgName.replace(/[^a-z0-9]+/gi,'_') + '_Committee_Handbook.docx'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url), 1000);
+  if (btn){ btn.disabled = false; btn.textContent = '⬇ Download .docx'; }
+}
+
+function renderBuild(){
+  const t = teamData();
+  if (!t){ document.getElementById('page-build').innerHTML = '<div class="empty-state">No team.</div>'; return; }
+  const myc = t.committees || []; const adh = (t.adhocCommittees||[]).filter(a => !a.dissolved);
+  const adopted = myc.filter(c => c.adopted).length;
+  document.getElementById('page-build').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Build Committee Handbook</h1><div class="page-sub">Assemble your active committees into a board-ready handbook section</div></div></div>
+    <div class="section">
+      <div class="section-title">Readiness</div>
+      <div class="stats-grid">
+        <div class="stat-card"><div class="stat-label">Standing committees</div><div class="stat-num">${myc.length}</div><div class="stat-sub">${adopted} formally adopted</div></div>
+        <div class="stat-card"><div class="stat-label">Ad hoc committees</div><div class="stat-num">${adh.length}</div><div class="stat-sub">active</div></div>
+        <div class="stat-card"><div class="stat-label">Committees with chairs</div><div class="stat-num">${myc.filter(c => c.chair).length}/${myc.length}</div></div>
+        <div class="stat-card"><div class="stat-label">Committees with cadence</div><div class="stat-num">${myc.filter(c => c.cadence).length}/${myc.length}</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Output</div>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:14px">Generate a polished handbook section covering all your standing and ad hoc committees. Drop it into your board packet or full board handbook.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <button class="btn btn-teal" onclick="previewHandbook()">👁️ Preview (HTML)</button>
+        <button class="btn btn-outline" onclick="downloadHandbookHTML()">⬇ Download .html</button>
+        <button class="btn btn-outline" id="build-docx-btn" onclick="downloadHandbookDocx()">⬇ Download .docx</button>
+      </div>
+    </div>
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  SETTINGS
+// ═════════════════════════════════════════════
+function renderSettings(){
+  const u = currentUser(); const t = currentTeam();
+  const p = (t && t.profile) || {};
+  const showEdit = (isLeader() || isSuperAdmin()) && t;
+  document.getElementById('page-settings').innerHTML = `
+    <div class="page-header"><div><h1 class="page-title">Settings</h1><div class="page-sub">Organization profile and account</div></div></div>
+    ${t ? `<div class="settings-card">
+      <div class="section-title" style="margin-bottom:10px">Organization Profile</div>
+      <div class="settings-row"><div class="settings-label">Name</div><div class="settings-value">${escapeHtml(p.orgName||'—')}</div></div>
+      <div class="settings-row"><div class="settings-label">Size tier</div><div class="settings-value">${escapeHtml((ORG_SIZES.find(s => s.id === p.orgSize)||{}).label||'—')}</div></div>
+      <div class="settings-row"><div class="settings-label">Team Code</div><div class="settings-value"><code style="font-family:'Courier New',monospace;background:var(--light);padding:2px 8px;border-radius:4px">${escapeHtml(t.id)}</code></div></div>
+      <div class="settings-row"><div class="settings-label">Plan</div><div class="settings-value">${t.isPro?'✓ Pro':'Free (3 seats)'}</div></div>
+      <div class="settings-row"><div class="settings-label">Standing committees</div><div class="settings-value">${(t.committees||[]).length}</div></div>
+      <div class="settings-row"><div class="settings-label">Ad hoc committees</div><div class="settings-value">${(t.adhocCommittees||[]).length}</div></div>
+      ${showEdit?'<div style="margin-top:14px"><button class="btn btn-outline" onclick="startOnboarding()">Edit organization →</button></div>':''}
+    </div>`:''}
+    <div class="settings-card">
+      <div class="section-title" style="margin-bottom:10px">Account</div>
+      <div class="settings-row"><div class="settings-label">Name</div><div class="settings-value">${escapeHtml(u.name)}${u.isSuperAdmin?' · super-admin':''}</div></div>
+      <div class="settings-row"><div class="settings-label">Email</div><div class="settings-value">${escapeHtml(state.currentEmail)}</div></div>
+      <div style="margin-top:14px"><button class="btn btn-outline" onclick="signOut()">Sign out</button></div>
+    </div>
+    <div class="settings-card">
+      <div class="section-title" style="margin-bottom:10px">Reset Demo</div>
+      <button class="btn btn-outline" onclick="if(confirm('Clear all demo data?')){localStorage.removeItem('bya_committees_v1');location.reload();}">Reset all demo data</button>
+    </div>
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  TEAM PAGE
+// ═════════════════════════════════════════════
+function renderTeam(){
+  const u = currentUser();
+  const t = currentTeam();
+  if (!t){ document.getElementById('page-team').innerHTML = '<div class="empty-state">No team selected.</div>'; return; }
+  const members = Object.entries(t.members||{}).map(([email, role]) => {
+    const usr = state.users[email];
+    return { email, role, name: (usr && usr.name) || email };
+  });
+  const leaderCount = members.filter(m => m.role === 'leader').length;
+  const seatLimit = t.isPro ? '∞' : '3';
+  const canInvite = isLeader() && (t.isPro || members.length < 3);
+
+  const memberRow = (m) => `
+    <div class="team-member-row">
+      <div class="user-avatar">${(m.name||'?').charAt(0).toUpperCase()}</div>
+      <div class="team-member-info">
+        <div class="team-member-name">${m.name} ${m.email===state.currentEmail?'<span style="color:var(--muted);font-weight:400">(you)</span>':''}</div>
+        <div class="team-member-email">${m.email}</div>
+      </div>
+      <span class="role-pill role-${m.role}">${m.role}</span>
+      ${isLeader() && m.role!=='leader' && m.email!==state.currentEmail ? `<button class="btn btn-outline" style="padding:6px 12px;font-size:12px" onclick="removeMember('${m.email}')">Remove</button>` : ''}
+    </div>`;
+
+  document.getElementById('page-team').innerHTML = `
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Team</h1>
+        <div class="page-sub">${members.length} member${members.length===1?'':'s'} · ${seatLimit} seat${seatLimit==='1'?'':'s'} available</div>
+      </div>
+    </div>
+    ${isLeader() ? `
+      <div class="team-code-display">
+        <div class="team-code-label">Invite teammates with this code</div>
+        <div class="team-code-value" id="tc-val">${t.id}</div>
+        <div style="display:flex;gap:8px;justify-content:center;margin-top:14px">
+          <button class="btn btn-outline" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2)" onclick="copyTeamCode()">📋 Copy</button>
+          <button class="btn btn-outline" style="background:rgba(255,255,255,.12);color:#fff;border-color:rgba(255,255,255,.2)" onclick="regenerateTeamCode()">🔄 New code</button>
+        </div>
+      </div>` : `
+      <div class="disclaimer" style="background:#dbeafe;border-color:#94c3ff;color:var(--navy)"><b>You're a member of this team.</b> The team leader can invite others. You can update filing statuses and see all the team's compliance items.</div>`}
+    <div class="section">
+      <div class="section-title">Members <span class="badge badge-grey">${members.length} / ${seatLimit}</span></div>
+      ${members.map(memberRow).join('')}
+      ${!t.isPro && members.length >= 3 ? `<div style="margin-top:14px;padding:14px;background:#fff7d6;border:1px solid #f5d77f;border-radius:10px;font-size:13px;color:#5c4400"><b>Free plan limit reached.</b> Upgrade to Pro for unlimited team seats. <a onclick="openUpgradeModal()" style="color:var(--navy);font-weight:600;cursor:pointer">View Pro →</a></div>` : ''}
+    </div>
+  `;
+}
+function copyTeamCode(){
+  const t = currentTeam(); if (!t) return;
+  navigator.clipboard.writeText(t.id).then(()=>alert('Team code copied: '+t.id), ()=>alert('Copy failed — code is '+t.id));
+}
+function regenerateTeamCode(){
+  if (!confirm('Generate a new team code? The old code will stop working for new invitations. Existing members are not affected.')) return;
+  const t = currentTeam(); if (!t || !isLeader()) return;
+  // Move team to new code
+  const newCode = generateTeamCode();
+  state.teams[newCode] = { ...t, id: newCode };
+  delete state.teams[t.id];
+  // Update all members' teamId
+  Object.keys(state.teams[newCode].members).forEach(email => {
+    if (state.users[email]) state.users[email].teamId = newCode;
+  });
+  save();
+  renderTeam();
+}
+function removeMember(email){
+  if (!confirm('Remove this team member? They will lose access immediately.')) return;
+  const t = currentTeam(); if (!t || !isLeader()) return;
+  delete t.members[email];
+  if (state.users[email]) state.users[email].teamId = null;
+  logHistory({ type:'member_removed', who: email, itemName: 'Team member removed' });
+  save();
+  renderTeam();
+}
+
+// ═════════════════════════════════════════════
+//  HISTORY PAGE
+// ═════════════════════════════════════════════
+const STATUS_LABEL = { not_started:'Not started', in_progress:'In progress', filed:'Filed ✓', na:'N/A' };
+const STATUS_COLOR = { not_started:'badge-grey', in_progress:'badge-amber', filed:'badge-green', na:'badge-blue' };
+
+function renderHistory(){
+  const t = currentTeam();
+  if (!t){ document.getElementById('page-history').innerHTML = '<div class="empty-state">No team selected.</div>'; return; }
+  const history = t.history || [];
+  const fmtDate = (iso) => { try { return new Date(iso).toLocaleString('en-US',{month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); } catch(e){ return iso; } };
+  const userLabel = (email) => { const u = state.users[email]; return u ? u.name : email; };
+
+  const row = (e) => {
+    if (e.type === 'status_change'){
+      return `<div class="hist-row">
+        <div class="hist-when">${fmtDate(e.when)}</div>
+        <div class="hist-who">${userLabel(e.by)}</div>
+        <div class="hist-what">marked <b>${e.itemName}</b> as <span class="hist-status-chip ${STATUS_COLOR[e.newStatus]}">${STATUS_LABEL[e.newStatus]||e.newStatus}</span></div>
+      </div>`;
+    }
+    if (e.type === 'member_added' || e.type === 'member_joined'){
+      return `<div class="hist-row"><div class="hist-when">${fmtDate(e.when)}</div><div class="hist-who">${userLabel(e.by)}</div><div class="hist-what">${e.itemName||'Team change'}</div></div>`;
+    }
+    return `<div class="hist-row"><div class="hist-when">${fmtDate(e.when)}</div><div class="hist-who">${userLabel(e.by)}</div><div class="hist-what">${e.itemName||e.type}</div></div>`;
+  };
+
+  document.getElementById('page-history').innerHTML = `
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Activity History</h1>
+        <div class="page-sub">${history.length} event${history.length===1?'':'s'} · capped at 200 · useful for board reporting and audit trail</div>
+      </div>
+    </div>
+    <div class="section">
+      ${history.length ? history.map(row).join('') : '<div class="empty-state">No activity yet. Status changes and team events will appear here.</div>'}
+    </div>
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  ANALYTICS PAGE
+// ═════════════════════════════════════════════
+function renderAnalytics(){
+  const t = currentTeam();
+  if (!t){ document.getElementById('page-analytics').innerHTML = '<div class="empty-state">No team selected.</div>'; return; }
+  const items = compileItems();
+  if (!items.length){ document.getElementById('page-analytics').innerHTML = '<div class="empty-state">No items to analyze yet.</div>'; return; }
+
+  // Compliance score: % of items currently filed or N/A (excluding those due more than 60 days out)
+  const dueSoon = items.filter(i => daysUntil(i.due) <= 60);
+  const handled = dueSoon.filter(i => { const s = statusFor(i.id); return s==='filed' || s==='na'; });
+  const score = dueSoon.length ? Math.round((handled.length / dueSoon.length) * 100) : 100;
+
+  // On-time score: filed items / past-due items (items where due date already passed)
+  const pastDue = items.filter(i => daysUntil(i.due) < 0);
+  const pastDueFiled = pastDue.filter(i => statusFor(i.id)==='filed' || statusFor(i.id)==='na');
+  const onTime = pastDue.length ? Math.round((pastDueFiled.length / pastDue.length) * 100) : 100;
+
+  // Overdue count (current)
+  const overdueCount = items.filter(i => daysUntil(i.due) < 0 && statusFor(i.id) !== 'filed' && statusFor(i.id) !== 'na').length;
+
+  // Category breakdown
+  const cats = {};
+  items.forEach(i => {
+    cats[i.category] = cats[i.category] || { total:0, filed:0 };
+    cats[i.category].total++;
+    const s = statusFor(i.id);
+    if (s==='filed' || s==='na') cats[i.category].filed++;
+  });
+
+  const barRow = (label, filed, total) => {
+    const pct = total ? Math.round((filed/total)*100) : 0;
+    return `<div class="bar-row">
+      <div class="bar-label">${label}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${pct}%">${pct>10?pct+'%':''}</div></div>
+      <div class="bar-meta">${filed}/${total}</div>
+    </div>`;
+  };
+
+  document.getElementById('page-analytics').innerHTML = `
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Compliance Analytics</h1>
+        <div class="page-sub">Health metrics for ${t.profile.orgName||'your organization'}</div>
+      </div>
+    </div>
+    <div class="score-card">
+      <div class="score-num">${score}%</div>
+      <div class="score-label">Current Compliance Score — filings due within 60 days that are filed or N/A</div>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">On-time historical</div><div class="stat-num">${onTime}%</div><div class="stat-sub">of past-due items were filed</div></div>
+      <div class="stat-card ${overdueCount>0?'alert':''}"><div class="stat-label">Currently overdue</div><div class="stat-num">${overdueCount}</div><div class="stat-sub">${overdueCount?'Action needed':'You\’re current'}</div></div>
+      <div class="stat-card"><div class="stat-label">Total filings tracked</div><div class="stat-num">${items.length}</div><div class="stat-sub">across all categories</div></div>
+      <div class="stat-card"><div class="stat-label">Activity events</div><div class="stat-num">${(t.history||[]).length}</div><div class="stat-sub">in your audit trail</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">Completion by Category</div>
+      <div class="bar-chart">
+        ${Object.entries(cats).map(([name, c]) => barRow(name, c.filed, c.total)).join('')}
+      </div>
+    </div>
+    <div class="section">
+      <div class="section-title">Status Distribution</div>
+      <div class="bar-chart">
+        ${['not_started','in_progress','filed','na'].map(s => {
+          const count = items.filter(i => statusFor(i.id) === s).length;
+          return barRow(STATUS_LABEL[s], count, items.length);
+        }).join('')}
+      </div>
+    </div>
+  `;
+}
+
+// ═════════════════════════════════════════════
+//  ADMIN PAGE (super-admin only)
+// ═════════════════════════════════════════════
+function renderAdmin(){
+  if (!isSuperAdmin()){ document.getElementById('page-admin').innerHTML = '<div class="empty-state">Admin only.</div>'; return; }
+  const teams = Object.values(state.teams);
+  const userCount = Object.keys(state.users).length;
+  const proCount = teams.filter(t => t.isPro).length;
+  document.getElementById('page-admin').innerHTML = `
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Admin Console</h1>
+        <div class="page-sub">All teams and users across the demo</div>
+      </div>
+      ${state.adminViewingTeam ? `<button class="btn btn-outline" onclick="exitAdminView()">← Exit team view</button>` : ''}
+    </div>
+    <div class="admin-banner"><b>🔐 Super Admin:</b> ${currentUser().name}. You can view any team's compliance data and impersonate them for support purposes.</div>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="stat-label">Teams</div><div class="stat-num">${teams.length}</div><div class="stat-sub">organizations registered</div></div>
+      <div class="stat-card"><div class="stat-label">Users</div><div class="stat-num">${userCount}</div><div class="stat-sub">across all teams</div></div>
+      <div class="stat-card"><div class="stat-label">Pro plans</div><div class="stat-num">${proCount}</div><div class="stat-sub">of ${teams.length} total</div></div>
+    </div>
+    <div class="section">
+      <div class="section-title">All Teams</div>
+      ${teams.length ? teams.map(t => {
+        const leader = Object.entries(t.members||{}).find(([e,r]) => r==='leader');
+        const leaderEmail = leader ? leader[0] : '—';
+        const memberCount = Object.keys(t.members||{}).length;
+        return `<div class="admin-team" onclick="adminViewTeam('${t.id}')">
+          <div style="font-size:22px">🏛️</div>
+          <div class="admin-team-info">
+            <div class="admin-team-name">${t.profile && t.profile.orgName || '(unnamed org)'}</div>
+            <div class="admin-team-meta">Code: <b>${t.id}</b> · Leader: ${leaderEmail} · ${memberCount} member${memberCount===1?'':'s'} · ${STATES[t.profile && t.profile.state]||'—'} · ${t.isPro?'<span style="color:var(--teal);font-weight:600">PRO</span>':'Free'}</div>
+          </div>
+          <button class="btn btn-outline" style="padding:6px 14px;font-size:12px">View →</button>
+        </div>`;
+      }).join('') : '<div class="empty-state">No teams yet.</div>'}
+    </div>
+    <div class="section">
+      <div class="section-title">All Users</div>
+      ${Object.entries(state.users).map(([email, u]) => {
+        const tName = u.teamId && state.teams[u.teamId] ? (state.teams[u.teamId].profile.orgName || '(unnamed)') : '—';
+        return `<div class="team-member-row">
+          <div class="user-avatar">${(u.name||'?').charAt(0).toUpperCase()}</div>
+          <div class="team-member-info">
+            <div class="team-member-name">${u.name||email}${u.isSuperAdmin?' <span class="role-pill role-leader">ADMIN</span>':''}</div>
+            <div class="team-member-email">${email} · Team: ${tName}</div>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
+function adminViewTeam(tid){
+  if (!isSuperAdmin()) return;
+  state.adminViewingTeam = tid;
+  save();
+  bootApp();
+}
+function exitAdminView(){
+  state.adminViewingTeam = null;
+  save();
+  bootApp();
+}
+
+// ═════════════════════════════════════════════
+//  UPGRADE MODAL / PRO
+// ═════════════════════════════════════════════
+function openUpgradeModal(){
+  const t = currentTeam();
+  if (!t){ alert('Sign in to a team first.'); return; }
+  if (t.isPro){ alert('You\'re already on the Pro plan. Thanks!'); return; }
+  if (!isLeader()){ alert('Only the team leader can upgrade.'); return; }
+  document.getElementById('upgrade-modal').classList.remove('hidden');
+}
+function closeUpgradeModal(){
+  document.getElementById('upgrade-modal').classList.add('hidden');
+}
+function startProTrial(){
+  const t = currentTeam();
+  if (!t || !isLeader()){ closeUpgradeModal(); return; }
+  t.isPro = true;
+  t.isOnTrial = true;
+  const ends = new Date(); ends.setDate(ends.getDate() + 14);
+  t.trialEnds = ends.toISOString();
+  logHistory({ type:'pro_upgrade', itemName:'Upgraded to Pro (14-day trial)' });
+  save();
+  closeUpgradeModal();
+  updateProBadge();
+  alert('🎉 Pro trial activated! You have unlimited team seats for the next 14 days.');
+  if (document.querySelector('#nav-team.active')) renderTeam();
+}
+
+
+// ═════════════════════════════════════════════
+//  MOBILE SIDEBAR TOGGLE
+// ═════════════════════════════════════════════
+function toggleSidebar(){
+  document.querySelector('.sidebar')?.classList.toggle('open');
+  document.querySelector('.sidebar-backdrop')?.classList.toggle('show');
+}
+function closeSidebar(){
+  document.querySelector('.sidebar')?.classList.remove('open');
+  document.querySelector('.sidebar-backdrop')?.classList.remove('show');
+}
+document.addEventListener('click', function(e){
+  if (window.innerWidth <= 768 && e.target.closest('.nav-item')){
+    closeSidebar();
+  }
+});
+
+// ═════════════════════════════════════════════
+//  BOOT
+// ═════════════════════════════════════════════
+load();
+seedDemo();
+if (state.currentEmail && state.users[state.currentEmail]){
+  routeAfterAuth();
+} else {
+  document.getElementById('screen-auth').classList.remove('hidden');
+}
+</script>
+</body>
+</html>
