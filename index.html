@@ -2070,11 +2070,21 @@ function addCommittee(charter){
     charterId: charter.id, name: charter.name,
     chair:'', members:'', cadence:'Quarterly', nextMeeting:'',
     notes:'', adopted:false, adoptedDate:'',
+    photoUrl:'', photoData:'',
     createdAt: new Date().toISOString()
   });
   logHistory({ type:'committee_added', itemName:'Added committee: '+charter.name });
   save();
 }
+
+function uploadCommitteePhoto(charterId, input){
+  const file = input.files[0]; if(!file) return;
+  if (file.size > 500*1024 && !confirm('Image is larger than 500KB. Continue?')) return;
+  const reader = new FileReader();
+  reader.onload = e => { updateCommittee(charterId, { photoData: e.target.result }); navigate(currentPage); };
+  reader.readAsDataURL(file);
+}
+
 function removeCommittee(charterId){
   const t = teamData(); if (!t) return;
   const c = t.committees.find(x => x.charterId === charterId);
@@ -2266,6 +2276,11 @@ function renderMyCommittees(){
         <div class="field"><label>Adopted?</label><div style="display:flex;align-items:center;gap:10px"><label style="display:flex;align-items:center;gap:5px;font-size:13px;font-weight:400"><input type="checkbox" ${c.adopted?'checked':''} onchange="updateCommittee('${c.charterId}', {adopted: this.checked})"> Yes</label> <input type="date" value="${escapeHtml(c.adoptedDate||'')}" oninput="updateCommittee('${c.charterId}', {adoptedDate: this.value})" placeholder="Date adopted"></div></div>
       </div>
       <div class="field"><label>Members (one per line, with role in parentheses)</label><textarea oninput="updateCommittee('${c.charterId}', {members: this.value})" style="min-height:80px" placeholder="Jane Doe (Chair)&#10;John Smith&#10;...">${escapeHtml(c.members)}</textarea></div>
+      <div class="field"><label>Committee Photo (optional)</label>
+        <input value="${escapeHtml(c.photoUrl||'')}" placeholder="Paste image URL OR upload below" oninput="updateCommittee('${c.charterId}',{photoUrl:this.value})"/>
+        <input type="file" accept="image/*" style="margin-top:8px;font-size:13px" onchange="uploadCommitteePhoto('${c.charterId}', this)"/>
+        ${c.photoData ? `<div style="margin-top:10px"><img src="${c.photoData}" style="max-width:240px;border-radius:8px;border:1px solid var(--border)"/><div><button class="btn btn-ghost" style="font-size:11px;margin-top:4px" onclick="updateCommittee('${c.charterId}',{photoData:''}); navigate(currentPage)">Remove uploaded image</button></div></div>` : (c.photoUrl ? `<div style="margin-top:10px"><img src="${escapeHtml(c.photoUrl)}" style="max-width:240px;border-radius:8px;border:1px solid var(--border)" onerror="this.style.display='none'"/></div>` : '')}
+      </div>
       <div class="field"><label>Notes</label><textarea oninput="updateCommittee('${c.charterId}', {notes: this.value})" style="min-height:60px">${escapeHtml(c.notes)}</textarea></div>
       ${charter ? `<details style="margin-top:8px"><summary style="cursor:pointer;font-size:13px;font-weight:600;color:var(--teal)">View full charter</summary><div style="background:var(--light);padding:14px;border-radius:8px;margin-top:8px;font-size:13px;line-height:1.6">${nlToBr(charter.purpose)}<br><br><b>Composition:</b><br>${nlToBr(charter.composition)}<br><br><b>Meetings:</b><br>${nlToBr(charter.meetings)}</div></details>` : ''}
     </div>`;
